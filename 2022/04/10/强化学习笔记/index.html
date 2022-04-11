@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/sG1vbJLijYZStgD.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/Y8dkctwnWX3xJOy.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-11T12:11:58.700Z">
+<meta property="article:modified_time" content="2022-04-11T12:24:49.191Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -207,7 +207,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-11 20:11:58" itemprop="dateModified" datetime="2022-04-11T20:11:58+08:00">2022-04-11</time>
+                <time title="修改时间：2022-04-11 20:24:49" itemprop="dateModified" datetime="2022-04-11T20:24:49+08:00">2022-04-11</time>
               </span>
 
           
@@ -224,7 +224,6 @@
         <p><img src="https://s2.loli.net/2022/04/11/VeLkxvf93CpXI4l.jpg" alt="ismail-inceoglu-cauligrx"></p>
 <p>记录自己强化学习学习过程</p>
 <span id="more"></span>
-
 <ol>
 <li><p>reinforcement learning算法的本质就是让agent获得状态转移矩阵</p>
 </li>
@@ -238,29 +237,36 @@
 <p>2）Agent的行为会对之后的情况产生影响（需要Agent具备探索能力）</p>
 </li>
 <li><p>Machine Learning ≈ Looking for a Function</p>
-<p>在强化学习中，这里的Function相当于Action &#x3D; Π(Observation)</p>
+<p>在强化学习中，这里的Function相当于Action = Π(Observation)</p>
 </li>
 <li><p>强化学习方法</p>
 <p>1）model-based(针对未来情况进行预测)</p>
-<p>2）model-free (policy-based and&#x2F;or value-based)<br>  (Alpha GO: policy-based+value-based+model-based)</p>
-</li>
-<li><p>在一场游戏里面，我们把环境输出的 s 跟演员输出的行为 a ，把 s  跟 a  全部串起来， 叫做一个 <code>Trajectory(轨迹)</code>，如下式所示。<br>$$<br>\text { Trajectory } \tau&#x3D;\left{s_{1}, a_{1}, s_{2}, a_{2}, \cdots, s_{t}, a_{t}\right}<br>$$</p>
-</li>
-<li><p>你可以计算每一个轨迹发生的概率。假设现在演员的参数已经被给定了话，就是 \thetaθ。根据 \thetaθ，你其实可以计算某一个轨迹发生的概率，你可以计算某一个回合里面发生这样子状况的概率。<br>$$<br>\begin{aligned} p_{\theta}(\tau) &amp;&#x3D;p\left(s_{1}\right) p_{\theta}\left(a_{1} | s_{1}\right) p\left(s_{2} | s_{1}, a_{1}\right) p_{\theta}\left(a_{2} | s_{2}\right) p\left(s_{3} | s_{2}, a_{2}\right) \cdots \ \ &amp;&#x3D;p\left(s_{1}\right) \prod_{t&#x3D;1}^{T} p_{\theta}\left(a_{t} | s_{t}\right) p\left(s_{t+1} | s_{t}, a_{t}\right) \end{aligned}<br>$$</p>
-</li>
-<li><p>你可以根据 $\theta$ 算出某一个轨迹 $\tau$ 出现的概率，接下来计算这个 $\tau$ 的总奖励是多少。总奖励使用这个 $\tau$ 出现的概率进行加权，对所有的 $\tau$ 进行求和，就是期望值。给定一个参数，你会得到的期望值。<br>$$<br>\bar{R}<em>{\theta}&#x3D;\sum</em>{\tau} R(\tau) p_{\theta}(\tau)&#x3D;E_{\tau \sim p_{\theta}(\tau)}[R(\tau)]<br>$$</p>
-</li>
-<li><p>计算梯度<br>$$<br>\nabla \bar{R}<em>{\theta}&#x3D;\frac{1}{N} \sum</em>{n&#x3D;1}^{N} \sum_{t&#x3D;1}^{T_{n}} R\left(\tau^{n}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)<br>$$</p>
-</li>
+<p>2）model-free (policy-based and/or value-based)</p>
+<pre><code>  (Alpha GO: policy-based+value-based+model-based)
+</code></pre></li>
+<li><p>在一场游戏里面，我们把环境输出的 s 跟演员输出的行为 a ，把 s  跟 a  全部串起来， 叫做一个 <code>Trajectory(轨迹)</code>，如下式所示。</p>
+<script type="math/tex; mode=display">
+\text { Trajectory } \tau=\left\{s_{1}, a_{1}, s_{2}, a_{2}, \cdots, s_{t}, a_{t}\right\}</script></li>
+<li><p>你可以计算每一个轨迹发生的概率。假设现在演员的参数已经被给定了话，就是 \thetaθ。根据 \thetaθ，你其实可以计算某一个轨迹发生的概率，你可以计算某一个回合里面发生这样子状况的概率。</p>
+<script type="math/tex; mode=display">
+\begin{aligned} p_{\theta}(\tau) &=p\left(s_{1}\right) p_{\theta}\left(a_{1} | s_{1}\right) p\left(s_{2} | s_{1}, a_{1}\right) p_{\theta}\left(a_{2} | s_{2}\right) p\left(s_{3} | s_{2}, a_{2}\right) \cdots \ \\ &=p\left(s_{1}\right) \prod_{t=1}^{T} p_{\theta}\left(a_{t} | s_{t}\right) p\left(s_{t+1} | s_{t}, a_{t}\right) \end{aligned}</script></li>
+<li><p>你可以根据 $\theta$ 算出某一个轨迹 $\tau$ 出现的概率，接下来计算这个 $\tau$ 的总奖励是多少。总奖励使用这个 $\tau$ 出现的概率进行加权，对所有的 $\tau$ 进行求和，就是期望值。给定一个参数，你会得到的期望值。</p>
+<script type="math/tex; mode=display">
+\bar{R}_{\theta}=\sum_{\tau} R(\tau) p_{\theta}(\tau)=E_{\tau \sim p_{\theta}(\tau)}[R(\tau)]</script></li>
+<li><p>计算梯度</p>
+<script type="math/tex; mode=display">
+\nabla \bar{R}_{\theta}=\frac{1}{N} \sum_{n=1}^{N} \sum_{t=1}^{T_{n}} R\left(\tau^{n}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)</script></li>
 <li><p>强化学习的一下Tips</p>
-<p>1）添加baseline<br>$$<br>\nabla \bar{R}<em>{\theta} \approx \frac{1}{N} \sum</em>{n&#x3D;1}^{N} \sum_{t&#x3D;1}^{T_{n}}\left(R\left(\tau^{n}\right)-b\right) \nabla \log p_{\theta}\left(a_{t}^{n} \mid s_{t}^{n}\right) \ b \approx E[R(\tau)]<br>$$<br>2）给每个动作合适的分数</p>
+<p>1）添加baseline</p>
+<script type="math/tex; mode=display">
+\nabla \bar{R}_{\theta} \approx \frac{1}{N} \sum_{n=1}^{N} \sum_{t=1}^{T_{n}}\left(R\left(\tau^{n}\right)-b\right) \nabla \log p_{\theta}\left(a_{t}^{n} \mid s_{t}^{n}\right) \\ b \approx E[R(\tau)]</script><p>2）给每个动作合适的分数</p>
 </li>
 </ol>
 <p><img src="https://s2.loli.net/2022/04/11/sG1vbJLijYZStgD.png" alt="4.17"></p>
-<p>​	本来的权重是整场游戏的奖励的总和，现在改成从某个时间 t 开始，假设这个动作是在 t 这个时间点所执行	   的，从 t 这个时间点一直到游戏结束所有奖励的总和，才真的代表这个动作是好的还是不好的。</p>
-<p>​	3）折扣回报</p>
-<p>​	4）优势函数</p>
-<p>​	把 R-b 这一项合起来，我们统称为<code> 优势函数(advantage function)</code>， 用 <code>A</code> 来代表优势函数。优势函数取决于 s 和 a，我们就是要计算的是在某一个状态 s 采取某一个动作 a 的时候，优势函数有多大。</p>
+<p>​    本来的权重是整场游戏的奖励的总和，现在改成从某个时间 t 开始，假设这个动作是在 t 这个时间点所执行       的，从 t 这个时间点一直到游戏结束所有奖励的总和，才真的代表这个动作是好的还是不好的。</p>
+<p>​    3）折扣回报</p>
+<p>​    4）优势函数</p>
+<p>​    把 R-b 这一项合起来，我们统称为<code>优势函数(advantage function)</code>， 用 <code>A</code> 来代表优势函数。优势函数取决于 s 和 a，我们就是要计算的是在某一个状态 s 采取某一个动作 a 的时候，优势函数有多大。</p>
 <p><img src="https://s2.loli.net/2022/04/11/Y8dkctwnWX3xJOy.png" alt="4.19"></p>
 <p>优势函数的意义在于，假设我们在某一个状态 $s_t$  执行某一个动作 $a_t$，相较于其他可能的动作，它有多好。它在意的不是一个绝对的好，而是相对的好，即<code>相对优势(relative advantage)</code>。因为会减掉一个 b，减掉一个 基线， 所以这个东西是相对的好，不是绝对的好。 $A^{\theta}\left(s_{t}, a_{t}\right)$ 通常可以是由一个网络估计出来的，这个网络叫做 critic。</p>
 

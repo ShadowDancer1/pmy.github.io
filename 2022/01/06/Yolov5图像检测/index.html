@@ -230,22 +230,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://s2.loli.net/2022/01/07/P3lCDfduE29XQys.jpg"></p>
+        <p><img src="https://s2.loli.net/2022/01/07/P3lCDfduE29XQys.jpg" alt=""></p>
 <p>通过Google Colab平台训练yolov5模型，实现对可乐罐的识别</p>
 <span id="more"></span>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入Yolov5模块</span></span><br><span class="line">!git clone https://github.com/ultralytics/yolov5  <span class="comment"># clone repo</span></span><br><span class="line">%cd yolov5</span><br><span class="line">%pip install -qr requirements.txt  <span class="comment"># install dependencies</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Image, clear_output  <span class="comment"># to display images</span></span><br><span class="line"></span><br><span class="line">clear_output()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Setup complete. Using torch %s %s&#x27;</span> % (torch.__version__, torch.cuda.get_device_properties(<span class="number">0</span>) <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&#x27;CPU&#x27;</span>))</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传数据集并解压</span></span><br><span class="line">!unrar x ../yolo_C ../</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检测是否正常</span></span><br><span class="line">!python detect.py --weights yolov5s.pt --img <span class="number">640</span> --conf <span class="number">0.25</span> --source data/images/</span><br><span class="line">Image(filename=<span class="string">&#x27;runs/detect/exp/zidane.jpg&#x27;</span>, width=<span class="number">600</span>)</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">!python train.py --img <span class="number">640</span> --batch <span class="number">50</span> --epochs <span class="number">200</span> --data /content/yolo_C/A.yaml --weights yolov5s.pt --nosave --cache</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用模型进行检测</span></span><br><span class="line">!python detect.py --weights /content/yolov5/runs/train/exp/weights/last.pt --img <span class="number">640</span> --conf <span class="number">0.25</span> --source ../test1.jpg</span><br><span class="line"></span><br><span class="line">Image(filename=<span class="string">&#x27;runs/detect/exp2/test1.jpg&#x27;</span>, width=<span class="number">600</span>)</span><br></pre></td></tr></table></figure>
-
 <p>效果图：</p>
-<p><img src="https://s2.loli.net/2022/01/07/BFj5OKRGMTtnDvz.jpg"></p>
+<p><img src="https://s2.loli.net/2022/01/07/BFj5OKRGMTtnDvz.jpg" alt=""></p>
 
     </div>
 
