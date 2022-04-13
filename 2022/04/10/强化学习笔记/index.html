@@ -30,9 +30,13 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/VeLkxvf93CpXI4l.jpg">
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/sG1vbJLijYZStgD.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/Y8dkctwnWX3xJOy.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/panmingyan/picgo_github/master/img/6.2.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/13/APTFzEkv1ZMiGQx.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/13/SOyXw3Vgd7WCtBk.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/13/zJUQEgT1XStOHxf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/13/riFPYbIwQ7jLWfm.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/13/kEdlX1IupJPsroq.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-13T00:27:11.874Z">
+<meta property="article:modified_time" content="2022-04-13T03:31:16.705Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -208,7 +212,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-13 08:27:11" itemprop="dateModified" datetime="2022-04-13T08:27:11+08:00">2022-04-13</time>
+                <time title="修改时间：2022-04-13 11:31:16" itemprop="dateModified" datetime="2022-04-13T11:31:16+08:00">2022-04-13</time>
               </span>
 
           
@@ -290,14 +294,30 @@
 <hr>
 <h3 id="4月13日"><a href="#4月13日" class="headerlink" title="4月13日"></a>4月13日</h3><ol>
 <li><p>DQN算法学习</p>
-<p>1）Critic 就是 <code>state value function(状态价值函数)</code>。评论家的输出是跟演员有关的，状态的价值其实取      决于你的演员，当演员变的时候，状态价值函数的输出其实也是会跟着改变的。</p>
+<p>1）有一种 Critic 是 <code>state value function(状态价值函数)</code>。评论家的输出是跟演员有关的，状态的价值其实取      决于你的演员，当演员变的时候，状态价值函数的输出其实也是会跟着改变的。</p>
 <p>2）衡量状态价值函数 $V^{\pi}(s)$ 的两种方法：</p>
 <p>​      （1）Monte-Carlo(MC)-based</p>
 <p>​                在训练的时候， 它就是一个回归问题。网络的输出就是一个值，你希望在输入 $s_a$ 的时候，输出                 的值跟 $G_a$ 越近越好，输入 $s_b$ 的时候，输出的值跟 $G_b$ 越近越好。</p>
-<p><img src="https://raw.githubusercontent.com/panmingyan/picgo_github/master/img/6.2.png" alt=""></p>
-<p>​      （2）TD-based  方法</p>
+<p><img src="https://s2.loli.net/2022/04/13/APTFzEkv1ZMiGQx.png" alt=""></p>
+<p>​      （2）Temporal-difference(时序差分)</p>
+<p>​                TD-based 的方法不需要把游戏玩到底，只要在游戏的某一个情况，某一个状态 $s_t$ 的时候，采取动                作 $a_t$ 得到奖励$r_t$ ，跳到状态 $s_{t+1}$，就可以使用 TD 的方法。</p>
+<p>​                <script type="math/tex">V^{\pi}\left(s_{t}\right)=V^{\pi}\left(s_{t+1}\right)+r_{t}</script></p>
+<p><img src="https://s2.loli.net/2022/04/13/SOyXw3Vgd7WCtBk.png" alt=""></p>
+<p>3）另一种 Ctitic 是 Q-function，也叫<code>state-action value function(状态-动作价值函数)</code>。状态-动作价值        函数的输入是一个状态、动作对，它的意思是说，在某一个状态采取某一个动作，假设我们都使用演员         $\pi$ ，得到的累积奖励的期望值有多大。</p>
+<p>​       推导可得：</p>
+<p>​         <script type="math/tex">\begin{aligned} V^{\pi}(s) &\le Q^{\pi}(s,\pi'(s)) \ \\ &=E\left[r_{t}+V^{\pi}\left(s_{t+1}\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right]\ \\&\le E\left[r_{t}+Q^{\pi}\left(s_{t+1}, \pi^{\prime}\left(s_{t+1}\right)\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\&=E\left[r_{t}+r_{t+1}+V^{\pi}\left(s_{t+2}\right) |s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & \le E\left[r_{t}+r_{t+1}+Q^{\pi}\left(s_{t+2},\pi'(s_{t+2}\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & = E\left[r_{t}+r_{t+1}+r_{t+2}+V^{\pi}\left(s_{t+3}\right) |s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & \le \cdots\ \\ & \le E\left[r_{t}+r_{t+1}+r_{t+2}+\cdots | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & = V^{\pi'}(s) \end{aligned}</script></p>
+<p>​        因此：</p>
+<p>​        <script type="math/tex">V^{\pi}(s)\le V^{\pi'}(s)</script></p>
 </li>
 </ol>
+<p>​        4）DQN中用到的一些Tips:</p>
+<p>​              （1）目标网络</p>
+<p><img src="https://s2.loli.net/2022/04/13/zJUQEgT1XStOHxf.png" alt=""></p>
+<p>​            （2）探索(Exploration)</p>
+<p><img src="https://s2.loli.net/2022/04/13/riFPYbIwQ7jLWfm.png" alt=""></p>
+<p>​            （3）Experience Replay(经验回放)</p>
+<p>​                     构建一个 <code>Replay Buffer</code>，用先有某一个策略 $\pi$ 去跟环境做互动，然后它会去收集数据，并利用收                    集到的数据更新参数。</p>
+<p><img src="https://s2.loli.net/2022/04/13/kEdlX1IupJPsroq.png" alt="6.18"></p>
 
     </div>
 
