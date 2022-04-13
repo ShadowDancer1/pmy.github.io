@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/13/kEdlX1IupJPsroq.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/13/IYFwo8DcpELsXnP.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-13T03:45:08.693Z">
+<meta property="article:modified_time" content="2022-04-13T03:51:12.751Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -213,7 +213,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-13 11:45:08" itemprop="dateModified" datetime="2022-04-13T11:45:08+08:00">2022-04-13</time>
+                <time title="修改时间：2022-04-13 11:51:12" itemprop="dateModified" datetime="2022-04-13T11:51:12+08:00">2022-04-13</time>
               </span>
 
           
@@ -306,8 +306,8 @@
 <p><img src="https://s2.loli.net/2022/04/13/SOyXw3Vgd7WCtBk.png" alt=""></p>
 <p>3）另一种 Ctitic 是 Q-function，也叫<code>state-action value function(状态-动作价值函数)</code>。状态-动作价值        函数的输入是一个状态、动作对，它的意思是说，在某一个状态采取某一个动作，假设我们都使用演员         $\pi$ ，得到的累积奖励的期望值有多大。</p>
 <p>​       推导可得：</p>
-<p>​         <script type="math/tex">\begin{aligned} V^{\pi}(s) &\le Q^{\pi}(s,\pi'(s)) \ \\ &=E\left[r_{t}+V^{\pi}\left(s_{t+1}\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right]\ \\&\le E\left[r_{t}+Q^{\pi}\left(s_{t+1}, \pi^{\prime}\left(s_{t+1}\right)\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\&=E\left[r_{t}+r_{t+1}+V^{\pi}\left(s_{t+2}\right) |s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & \le E\left[r_{t}+r_{t+1}+Q^{\pi}\left(s_{t+2},\pi'(s_{t+2}\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & = E\left[r_{t}+r_{t+1}+r_{t+2}+V^{\pi}\left(s_{t+3}\right) |s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & \le \cdots\ \\ & \le E\left[r_{t}+r_{t+1}+r_{t+2}+\cdots | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & = V^{\pi'}(s) \end{aligned}</script></p>
-<p>​        因此：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} V^{\pi}(s) &\le Q^{\pi}(s,\pi'(s)) \ \\ &=E\left[r_{t}+V^{\pi}\left(s_{t+1}\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right]\ \\&\le E\left[r_{t}+Q^{\pi}\left(s_{t+1}, \pi^{\prime}\left(s_{t+1}\right)\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\&=E\left[r_{t}+r_{t+1}+V^{\pi}\left(s_{t+2}\right) |s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & \le E\left[r_{t}+r_{t+1}+Q^{\pi}\left(s_{t+2},\pi'(s_{t+2}\right) | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & = E\left[r_{t}+r_{t+1}+r_{t+2}+V^{\pi}\left(s_{t+3}\right) |s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & \le \cdots\ \\ & \le E\left[r_{t}+r_{t+1}+r_{t+2}+\cdots | s_{t}=s, a_{t}=\pi^{\prime}\left(s_{t}\right)\right] \ \\ & = V^{\pi'}(s) \end{aligned}</script><p>​        因此：</p>
 <p>​        <script type="math/tex">V^{\pi}(s)\le V^{\pi'}(s)</script></p>
 </li>
 </ol>
