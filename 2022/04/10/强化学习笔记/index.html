@@ -30,8 +30,9 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/VeLkxvf93CpXI4l.jpg">
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/sG1vbJLijYZStgD.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/11/Y8dkctwnWX3xJOy.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/panmingyan/picgo_github/master/img/6.2.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-12T14:04:59.112Z">
+<meta property="article:modified_time" content="2022-04-13T00:27:11.874Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -207,7 +208,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-12 22:04:59" itemprop="dateModified" datetime="2022-04-12T22:04:59+08:00">2022-04-12</time>
+                <time title="修改时间：2022-04-13 08:27:11" itemprop="dateModified" datetime="2022-04-13T08:27:11+08:00">2022-04-13</time>
               </span>
 
           
@@ -284,6 +285,17 @@
 </li>
 <li><p>一个 Critic 无法决定 Action，Critic 的作用是评估一个 actor Π 好不好。（给出最终奖励的期望）</p>
 <p>评论家(Critic)是指值函数 $V^{\pi}(s)$，对当前策略的值函数进行估计，即评估演员的好坏。</p>
+</li>
+</ol>
+<hr>
+<h3 id="4月13日"><a href="#4月13日" class="headerlink" title="4月13日"></a>4月13日</h3><ol>
+<li><p>DQN算法学习</p>
+<p>1）Critic 就是 <code>state value function(状态价值函数)</code>。评论家的输出是跟演员有关的，状态的价值其实取      决于你的演员，当演员变的时候，状态价值函数的输出其实也是会跟着改变的。</p>
+<p>2）衡量状态价值函数 $V^{\pi}(s)$ 的两种方法：</p>
+<p>​      （1）Monte-Carlo(MC)-based</p>
+<p>​                在训练的时候， 它就是一个回归问题。网络的输出就是一个值，你希望在输入 $s_a$ 的时候，输出                 的值跟 $G_a$ 越近越好，输入 $s_b$ 的时候，输出的值跟 $G_b$ 越近越好。</p>
+<p><img src="https://raw.githubusercontent.com/panmingyan/picgo_github/master/img/6.2.png" alt=""></p>
+<p>​      （2）TD-based  方法</p>
 </li>
 </ol>
 
@@ -366,7 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8811%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8812%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月12日</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8811%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8812%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8813%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月13日</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
