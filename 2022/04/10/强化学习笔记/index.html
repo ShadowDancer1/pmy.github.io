@@ -49,7 +49,7 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/8mg9yo1sVQJuDbk.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/M78EQ53ghfvyTO2.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-16T09:37:24.496Z">
+<meta property="article:modified_time" content="2022-04-17T09:43:54.006Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -225,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-16 17:37:24" itemprop="dateModified" datetime="2022-04-16T17:37:24+08:00">2022-04-16</time>
+                <time title="修改时间：2022-04-17 17:43:54" itemprop="dateModified" datetime="2022-04-17T17:43:54+08:00">2022-04-17</time>
               </span>
 
           
@@ -350,6 +350,8 @@
 <p><img src="https://img30.360buyimg.com/pop/jfs/t1/214725/25/17102/632112/6257f21bE89ca862a/774c8fe0fdd93b77.png" alt="7.12.png"></p>
 <p>7）Rainbow</p>
 <p><img src="https://img30.360buyimg.com/pop/jfs/t1/188468/40/23237/1878038/6257f051Ef267260a/0b049abbd92a7cce.png" alt="7.13.png"></p>
+</li>
+</ol>
 <hr>
 <h3 id="4月15日"><a href="#4月15日" class="headerlink" title="4月15日"></a>4月15日</h3><p>实现 DQN算法 玩 MountainCar-v0，并能够保存模型和加载模型。</p>
 <p><img src="https://s2.loli.net/2022/04/16/u3MjVKWYFRAIiTb.png" alt=""></p>
@@ -357,12 +359,14 @@
 <h3 id="4月16日"><a href="#4月16日" class="headerlink" title="4月16日"></a>4月16日</h3><ol>
 <li><p>PPO算法学习</p>
 <p>1）on-policy 和 off-policy</p>
+</li>
+</ol>
 <p>​     如果要学习的 agent 跟和环境互动的 agent 是同一个的话， 这个叫做<code>on-policy(同策略)</code>。</p>
 <p>​     如果要学习的 agent 跟和环境互动的 agent 不是同一个的话， 那这个叫做<code>off-policy(异策略)</code>。</p>
-<p>2）policy gradient 是一个 on-policy 的算法。</p>
-<p>3）<code>近端策略优化(Proximal Policy Optimization，简称 PPO)</code> 是 policy gradient 的一个变形，它是现      在 OpenAI 默认的强化学习算法。</p>
+<p> 2）policy gradient 是一个 on-policy 的算法。</p>
+<p> 3）<code>近端策略优化(Proximal Policy Optimization，简称 PPO)</code> 是 policy gradient 的一个变形，它是现      在  OpenAI 默认的强化学习算法。</p>
 <script type="math/tex; mode=display">
-\nabla \bar{R}{\theta}=E{\tau \sim p_{\theta}(\tau)}\left[R(\tau) \nabla \log p_{\theta}(\tau)\right]</script><p>4）重要性采样(Importance Sampling，IS)</p>
+\nabla \bar{R}{\theta}=E{\tau \sim p_{\theta}(\tau)}\left[R(\tau) \nabla \log p_{\theta}(\tau)\right]</script><p> 4）重要性采样(Importance Sampling，IS)</p>
 <script type="math/tex; mode=display">
 E_{x \sim p}[f(x)] \approx \frac{1}{N} \sum_{i=1}^N f(x^i)</script><p>​      期望值 $E_{x \sim p}[f(x)]$ 其实就是 $\int f(x) p(x) dx$，对其做如下的变换：</p>
 <script type="math/tex; mode=display">
@@ -371,7 +375,7 @@ E_{x \sim p}[f(x)] \approx \frac{1}{N} \sum_{i=1}^N f(x^i)</script><p>​      �
 <script type="math/tex; mode=display">
 \operatorname{Var}_{x \sim p}[f(x)]=E_{x \sim p}\left[f(x)^{2}\right]-\left(E_{x \sim p}[f(x)]\right)^{2} \\
 \begin{aligned} \operatorname{Var}_{x \sim q}\left[f(x) \frac{p(x)}{q(x)}\right] &=E_{x \sim q}\left[\left(f(x) \frac{p(x)}{q(x)}\right)^{2}\right]-\left(E_{x \sim q}\left[f(x) \frac{p(x)}{q(x)}\right]\right)^{2} \ \\ &=E_{x \sim p}\left[f(x)^{2} \frac{p(x)}{q(x)}\right]-\left(E_{x \sim p}[f(x)]\right)^{2} \end{aligned}</script><p><img src="https://s2.loli.net/2022/04/16/Yte1AsnRpvOm3bw.png" alt="5.4"></p>
-<p>5）on-policy  —-&gt;  off-policy</p>
+<p> 5）on-policy  —-&gt;  off-policy</p>
 <p><img src="https://s2.loli.net/2022/04/16/pZjodmA9li34EIV.png" alt="5.6"></p>
 <script type="math/tex; mode=display">
 E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta}}\left[A^{\theta}\left(s_{t}, a_{t}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)\right] \\
@@ -382,27 +386,20 @@ E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta}}\left[A^{\theta}\left(s_{t}, a_{t
 J^{\theta^{\prime}}(\theta)=E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prime}}}\left[\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{\prime}}\left(a_{t} | s_{t}\right)} A^{\theta^{\prime}}\left(s_{t}, a_{t}\right)\right]</script><p>6）<strong>PPO 是 on-policy 的算法</strong>，<strong>在 PPO 中 $\theta’$ 是 $\theta_{\text{old}}$，即 behavior policy 也是 $\theta$</strong>。如果 $p_{\theta}\left(a_{t} | s_{t}\right)$ 跟 $p_{\theta’}\left(a_{t} | s_{t}\right)$ 这两个分布差太多的话，重要性采样的结果就会不好。这也是PPO要解决的问题。</p>
 <p>7）在做 PPO 的时候，所谓的 KL 散度并不是参数的距离，而是动作的距离。</p>
 <p>8）<strong>PPO-Penalty</strong></p>
-</li>
-</ol>
-</li>
-</ol>
 <p>​                    <img src="https://s2.loli.net/2022/04/16/8mg9yo1sVQJuDbk.png" alt="5.9"></p>
 <p>​            9）<strong>PPO-Clip</strong></p>
 <script type="math/tex; mode=display">
 \begin{aligned} J_{P P O 2}^{\theta^{k}}(\theta) \approx \sum_{\left(s_{t}, a_{t}\right)} \min &\left(\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{k}}\left(a_{t} | s_{t}\right)} A^{\theta^{k}}\left(s_{t}, a_{t}\right),\right.\  \\ &\left.\operatorname{clip}\left(\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{k}}\left(a_{t} | s_{t}\right)}, 1-\varepsilon, 1+\varepsilon\right) A^{\theta^{k}}\left(s_{t}, a_{t}\right)\right) \end{aligned}</script><p>​                </p>
-<ul>
-<li><p>Min 这个操作符(operator)做的事情是第一项跟第二项里面选比较小的那个。</p>
-</li>
-<li><p>第二项前面有个 clip 函数，clip 函数的意思是说，</p>
+<p>Min 这个操作符(operator)做的事情是第一项跟第二项里面选比较小的那个。</p>
+<p>第二项前面有个 clip 函数，clip 函数的意思是说，</p>
 <ul>
 <li>在括号里面有三项，如果第一项小于第二项的话，那就输出 $1-\varepsilon$ 。</li>
 <li>第一项如果大于第三项的话，那就输出 $1+\varepsilon$。</li>
 </ul>
-</li>
-<li><p>$\varepsilon$ 是一个超参数，你要 tune 的，你可以设成 0.1 或 设 0.2 。</p>
+<p>$\varepsilon$ 是一个超参数，你要 tune 的，你可以设成 0.1 或 设 0.2 。</p>
 <p><img src="https://s2.loli.net/2022/04/16/M78EQ53ghfvyTO2.png" alt="5.14"></p>
-</li>
-</ul>
+<hr>
+<h3 id="4月17日"><a href="#4月17日" class="headerlink" title="4月17日"></a>4月17日</h3><p>实现 PPO算法 玩 Pendulum-v1。</p>
 
     </div>
 
@@ -486,7 +483,7 @@ J^{\theta^{\prime}}(\theta)=E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prim
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8811%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8812%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8813%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月13日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8814%E6%97%A5"><span class="nav-number">4.</span> <span class="nav-text">4月14日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8815%E6%97%A5"><span class="nav-number">5.</span> <span class="nav-text">4月15日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8816%E6%97%A5"><span class="nav-number">6.</span> <span class="nav-text">4月16日</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8811%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8812%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8813%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月13日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8814%E6%97%A5"><span class="nav-number">4.</span> <span class="nav-text">4月14日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8815%E6%97%A5"><span class="nav-number">5.</span> <span class="nav-text">4月15日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8816%E6%97%A5"><span class="nav-number">6.</span> <span class="nav-text">4月16日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8817%E6%97%A5"><span class="nav-number">7.</span> <span class="nav-text">4月17日</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
