@@ -48,8 +48,9 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/pZjodmA9li34EIV.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/8mg9yo1sVQJuDbk.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/M78EQ53ghfvyTO2.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/17/ObnDNdgfz4HYpcC.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-17T09:43:54.006Z">
+<meta property="article:modified_time" content="2022-04-17T10:46:19.176Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -225,7 +226,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:43:54" itemprop="dateModified" datetime="2022-04-17T17:43:54+08:00">2022-04-17</time>
+                <time title="修改时间：2022-04-17 18:46:19" itemprop="dateModified" datetime="2022-04-17T18:46:19+08:00">2022-04-17</time>
               </span>
 
           
@@ -381,7 +382,7 @@ E_{x \sim p}[f(x)] \approx \frac{1}{N} \sum_{i=1}^N f(x^i)</script><p>​      �
 E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta}}\left[A^{\theta}\left(s_{t}, a_{t}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)\right] \\
  =E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prime}}}\left[\frac{p_{\theta}\left(s_{t}, a_{t}\right)}{p_{\theta^{\prime}}\left(s_{t}, a_{t}\right)} A^{\theta}\left(s_{t}, a_{t}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)\right] \\
  =E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prime}}}\left[\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{\prime}}\left(a_{t} | s_{t}\right)} \frac{p_{\theta}\left(s_{t}\right)}{p_{\theta^{\prime}}\left(s_{t}\right)} A^{\theta^{\prime}}\left(s_{t}, a_{t}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)\right] \\
- =E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prime}}}\left[\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{\prime}}\left(a_{t} | s_{t}\right)} A^{\theta^{\prime}}\left(s_{t}, a_{t}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)\right] \tag{1}</script><p>  现在我们得到一个新的目标函数:</p>
+ =E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prime}}}\left[\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{\prime}}\left(a_{t} | s_{t}\right)} A^{\theta^{\prime}}\left(s_{t}, a_{t}\right) \nabla \log p_{\theta}\left(a_{t}^{n} | s_{t}^{n}\right)\right]</script><p>  现在我们得到一个新的目标函数:</p>
 <script type="math/tex; mode=display">
 J^{\theta^{\prime}}(\theta)=E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prime}}}\left[\frac{p_{\theta}\left(a_{t} | s_{t}\right)}{p_{\theta^{\prime}}\left(a_{t} | s_{t}\right)} A^{\theta^{\prime}}\left(s_{t}, a_{t}\right)\right]</script><p>6）<strong>PPO 是 on-policy 的算法</strong>，<strong>在 PPO 中 $\theta’$ 是 $\theta_{\text{old}}$，即 behavior policy 也是 $\theta$</strong>。如果 $p_{\theta}\left(a_{t} | s_{t}\right)$ 跟 $p_{\theta’}\left(a_{t} | s_{t}\right)$ 这两个分布差太多的话，重要性采样的结果就会不好。这也是PPO要解决的问题。</p>
 <p>7）在做 PPO 的时候，所谓的 KL 散度并不是参数的距离，而是动作的距离。</p>
@@ -400,6 +401,7 @@ J^{\theta^{\prime}}(\theta)=E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prim
 <p><img src="https://s2.loli.net/2022/04/16/M78EQ53ghfvyTO2.png" alt="5.14"></p>
 <hr>
 <h3 id="4月17日"><a href="#4月17日" class="headerlink" title="4月17日"></a>4月17日</h3><p>实现 PPO算法 玩 Pendulum-v1。</p>
+<p><img src="https://s2.loli.net/2022/04/17/ObnDNdgfz4HYpcC.png"  /></p>
 
     </div>
 
