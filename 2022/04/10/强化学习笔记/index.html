@@ -49,8 +49,14 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/8mg9yo1sVQJuDbk.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/16/M78EQ53ghfvyTO2.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/17/ObnDNdgfz4HYpcC.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/18/xZERljQ4V6BwnLk.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/18/3bidn78rJN2HkKw.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/18/1nHLEcAvhJflDOu.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/18/tYpyQ8vnWduIqe1.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/18/YKlXsjvpW3STLge.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/18/8UcKnF321vfCglZ.png">
 <meta property="article:published_time" content="2022-04-10T09:18:13.000Z">
-<meta property="article:modified_time" content="2022-04-17T10:46:19.176Z">
+<meta property="article:modified_time" content="2022-04-18T02:21:01.982Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -226,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 18:46:19" itemprop="dateModified" datetime="2022-04-17T18:46:19+08:00">2022-04-17</time>
+                <time title="修改时间：2022-04-18 10:21:01" itemprop="dateModified" datetime="2022-04-18T10:21:01+08:00">2022-04-18</time>
               </span>
 
           
@@ -402,6 +408,43 @@ J^{\theta^{\prime}}(\theta)=E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prim
 <hr>
 <h3 id="4月17日"><a href="#4月17日" class="headerlink" title="4月17日"></a>4月17日</h3><p>实现 PPO算法 玩 Pendulum-v1。</p>
 <p><img src="https://s2.loli.net/2022/04/17/ObnDNdgfz4HYpcC.png"  /></p>
+<hr>
+<h3 id="4月18日"><a href="#4月18日" class="headerlink" title="4月18日"></a>4月18日</h3><ol>
+<li><p>Actor-Critic算法学习</p>
+<p>1）<code>演员-评论家算法(Actor-Critic Algorithm)</code>是一种结合<code>策略梯度</code>和<code>时序差分学习</code>的强化学习方法，其中：</p>
+<ul>
+<li>演员(Actor)是指策略函数 $\pi_{\theta}(a|s)$，即学习一个策略来得到尽量高的回报。</li>
+<li>评论家(Critic)是指值函数 $V^{\pi}(s)$，对当前策略的值函数进行估计，即评估演员的好坏。</li>
+<li>借助于值函数，演员-评论家算法可以进行单步更新参数，不需要等到回合结束才进行更新。</li>
+</ul>
+<p>2）A2C——Advantage Actor-Critic</p>
+<p>​      A3C——Asynchronous Advantage Actor-Critic</p>
+<p>3）Q-Learning 使基于价值的方法(value-based)，有两种 critics。</p>
+<ul>
+<li>第一种 critic 是 $V^{\pi}(s)$，它的意思是说，假设 actor 是 $\pi$，拿 $\pi$ 去跟环境做互动，当我们看到状态 s 的时候，接下来累积奖励 的期望值有多少。</li>
+<li>还有一个 critic 是 $Q^{\pi}(s,a)$。$Q^{\pi}(s,a)$ 把 s 跟 a 当作输入，它的意思是说，在状态 s 采取动作 a，接下来都用 actor $\pi$ 来跟环境进行互动，累积奖励的期望值是多少。</li>
+<li>$V^{\pi}$ 输入 s，输出一个标量。</li>
+<li>$Q^{\pi}$ 输入 s，然后它会给每一个 a 都分配一个 Q value。</li>
+<li>你可以用 TD 或 MC 来估计。用 TD 比较稳，用 MC 比较精确。</li>
+</ul>
+<p>4）A2C (Advantage Actor-Critic)</p>
+<p><img src="https://s2.loli.net/2022/04/18/xZERljQ4V6BwnLk.png" alt="9.3"></p>
+<p><img src="https://s2.loli.net/2022/04/18/3bidn78rJN2HkKw.png" alt="9.4"></p>
+<p><strong>A2C算法流程：</strong></p>
+<p><img src="https://s2.loli.net/2022/04/18/1nHLEcAvhJflDOu.png" alt="9.5"></p>
+<p>用到的Tips:</p>
+<p>（1）<strong>actor (policy) 和 critic (V function) 的输入都是 s，所以它们前面几个层(layer)是可以共享的。</strong></p>
+<p>（2）<strong>仍然需要探索(exploration)的机制。</strong></p>
+<p>5）A3C （Asynchronous(异步的) Advantage Actor-Critic）</p>
+<p><strong>A3C 这个方法就是同时开很多个 worker，那每一个 worker 其实就是一个影分身。那最后这些影分身会把所有的经验，通通集合在一起。</strong></p>
+</li>
+</ol>
+<p>​        <img src="https://s2.loli.net/2022/04/18/tYpyQ8vnWduIqe1.png" alt="9.8"></p>
+<p>​        6）<strong>Pathwise Derivative Policy Gradient</strong></p>
+<p>​            在Q-Learning算法基础上进行改变。</p>
+<p>​            <img src="https://s2.loli.net/2022/04/18/YKlXsjvpW3STLge.png" alt="9.12"></p>
+<p>​        <img src="https://s2.loli.net/2022/04/18/8UcKnF321vfCglZ.png" alt="9.13"></p>
+<p>​        7） GAN 跟 Actor-Critic 的方法非常类似。</p>
 
     </div>
 
@@ -485,7 +528,7 @@ J^{\theta^{\prime}}(\theta)=E_{\left(s_{t}, a_{t}\right) \sim \pi_{\theta^{\prim
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8811%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8812%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8813%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月13日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8814%E6%97%A5"><span class="nav-number">4.</span> <span class="nav-text">4月14日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8815%E6%97%A5"><span class="nav-number">5.</span> <span class="nav-text">4月15日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8816%E6%97%A5"><span class="nav-number">6.</span> <span class="nav-text">4月16日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8817%E6%97%A5"><span class="nav-number">7.</span> <span class="nav-text">4月17日</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8811%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月11日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8812%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月12日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8813%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月13日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8814%E6%97%A5"><span class="nav-number">4.</span> <span class="nav-text">4月14日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8815%E6%97%A5"><span class="nav-number">5.</span> <span class="nav-text">4月15日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8816%E6%97%A5"><span class="nav-number">6.</span> <span class="nav-text">4月16日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8817%E6%97%A5"><span class="nav-number">7.</span> <span class="nav-text">4月17日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8818%E6%97%A5"><span class="nav-number">8.</span> <span class="nav-text">4月18日</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
