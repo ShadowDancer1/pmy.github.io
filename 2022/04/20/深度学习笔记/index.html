@@ -28,9 +28,11 @@
 <meta property="og:description" content="提升自己对神经网络结构理解、代码复现的能力。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2022/04/21/TGvuhY21DqUo389.jpg">
-<meta property="og:image" content="https://s2.loli.net/2022/04/21/lPHbTjW1DsmoJrA.png">
+<meta property="og:image" content="https://pic.rmb.bdstatic.com/bjh/db8d257d33a138feb474dd9e447ecd9a.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/21/maBlIAPe1zbikoy.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/04/21/WCvzNrfBKUpxOXl.jpg">
 <meta property="article:published_time" content="2022-04-20T10:10:46.000Z">
-<meta property="article:modified_time" content="2022-04-21T02:30:15.694Z">
+<meta property="article:modified_time" content="2022-04-21T09:02:55.102Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
@@ -206,7 +208,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-21 10:30:15" itemprop="dateModified" datetime="2022-04-21T10:30:15+08:00">2022-04-21</time>
+                <time title="修改时间：2022-04-21 17:02:55" itemprop="dateModified" datetime="2022-04-21T17:02:55+08:00">2022-04-21</time>
               </span>
 
           
@@ -223,10 +225,30 @@
         <p><img src="https://s2.loli.net/2022/04/21/TGvuhY21DqUo389.jpg" alt="ismail-inceoglu-a-day-off"></p>
 <p>提升自己对神经网络结构理解、代码复现的能力。</p>
 <span id="more"></span>
-<h3 id="4月21日"><a href="#4月21日" class="headerlink" title="4月21日"></a>4月21日</h3><ol>
-<li><strong>AI地图</strong></li>
-</ol>
-<p><img src="https://s2.loli.net/2022/04/21/lPHbTjW1DsmoJrA.png" alt=""></p>
+<h3 id="4月21日"><a href="#4月21日" class="headerlink" title="4月21日"></a>4月21日</h3><p>1.<strong>AI地图</strong></p>
+<p><img src="https://pic.rmb.bdstatic.com/bjh/db8d257d33a138feb474dd9e447ecd9a.png" alt="lPHbTjW1DsmoJrA.png"></p>
+<p>2.节省内存的方法</p>
+<ul>
+<li>Y = X + Y  (❌)</li>
+<li>Z = X + Y  (✔)</li>
+<li>X += Y      (✔)</li>
+</ul>
+<p>3.多维矩阵</p>
+<p>​    1）对于一个3维矩阵 <code>shape=[2, 2, 3]</code>，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = torch.arange(<span class="number">12</span>).reshape(<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>可视化如下：</p>
+<p><img src="https://s2.loli.net/2022/04/21/maBlIAPe1zbikoy.jpg" alt="v2-f4fe275492c9f1105528e0cd1f155ca8_720w"></p>
+<p>​    2）对于一个4维矩阵<code>shape=[2,2,2,3]</code>，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = torch.arange(<span class="number">1</span>, <span class="number">25</span>).reshape(<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>可视化如下：</p>
+<p><img src="https://s2.loli.net/2022/04/21/WCvzNrfBKUpxOXl.jpg" alt="v2-a6aff2732f5a35b8062568e3c44246ba_720w"></p>
+<p>​    3）多维矩阵乘法</p>
+<p>​    三维中，第一个值相等，后两维就是正常的矩阵相乘。</p>
+<p>​    例：a：shape=[2, 2, 4]，b：shape=[2, 4, 3]相乘，输出shape=[2, 2, 3]。</p>
+<p>​    四维中，<strong>前两维是矩阵排列，相乘的话保留前的最大值</strong>。后两维就是正常的矩阵相乘。</p>
+<p>​    例：a：shape=[2,1,4,5]，b：shape=[1,1,5,4]相乘，输出的结果中，前两维保留的是[2,1]，最终结果shape=            [2,1,4,4]。</p>
+<p>​    4）多维矩阵转置</p>
+<p>​    <code>shape=[2,2,4]</code> 转置之后为 <code>shape=[4, 2, 2]</code></p>
 
     </div>
 
