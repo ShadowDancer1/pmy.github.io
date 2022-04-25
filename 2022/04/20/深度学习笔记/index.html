@@ -33,8 +33,12 @@
 <meta property="og:image" content="https://s2.loli.net/2022/04/21/WCvzNrfBKUpxOXl.jpg">
 <meta property="og:image" content="https://s2.loli.net/2022/04/22/IyMKBGFpkw9lRHu.png">
 <meta property="og:image" content="https://s2.loli.net/2022/04/24/DzbpCr3TH5YjG4k.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/25/BHnT1UpEfYyZNKP.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/25/RQd25SzYfIEl1De.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/25/in7wem5kYpsWCuE.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/25/dIMPhy2RD7wn1jf.png">
 <meta property="article:published_time" content="2022-04-20T10:10:46.000Z">
-<meta property="article:modified_time" content="2022-04-24T09:10:18.129Z">
+<meta property="article:modified_time" content="2022-04-25T01:44:55.737Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
@@ -210,7 +214,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-24 17:10:18" itemprop="dateModified" datetime="2022-04-24T17:10:18+08:00">2022-04-24</time>
+                <time title="修改时间：2022-04-25 09:44:55" itemprop="dateModified" datetime="2022-04-25T09:44:55+08:00">2022-04-25</time>
               </span>
 
           
@@ -303,6 +307,32 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trainer = torch.optim.SGD(net.parameters(), lr=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
 <p>5）训练</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num_epochs = <span class="number">10</span></span><br><span class="line">d2l.train_ch3(net, train_iter, test_iter, loss, num_epochs, trainer)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="4月25日"><a href="#4月25日" class="headerlink" title="4月25日"></a>4月25日</h3><p>10.多层感知机（MLP）</p>
+<p><img src="https://s2.loli.net/2022/04/25/BHnT1UpEfYyZNKP.png" alt="mlp"></p>
+<ul>
+<li><p>多层感知机使用<strong>隐藏层</strong>和<strong>激活函数</strong>来得到非线性模型</p>
+</li>
+<li><p>常用的<strong>激活函数</strong>有</p>
+<p>1）Sigmoid</p>
+<p><img src="https://s2.loli.net/2022/04/25/RQd25SzYfIEl1De.png" alt="sigmoid"></p>
+<p>2）ReLU（使用较多）</p>
+<p><img src="https://s2.loli.net/2022/04/25/in7wem5kYpsWCuE.png" alt="ReLU"></p>
+<p>3）tanh</p>
+<p><img src="https://s2.loli.net/2022/04/25/dIMPhy2RD7wn1jf.png" alt="tanh"></p>
+</li>
+<li><p>使用<strong>Softmax</strong>来处理多类分类</p>
+</li>
+<li><p>超参数为<strong>隐藏层数</strong>，和各个<strong>隐藏层大小</strong></p>
+</li>
+</ul>
+<p><strong>多层感知机简洁实现</strong></p>
+<p>1）导入Fashion-MNIST数据集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> d2l <span class="keyword">import</span> torch <span class="keyword">as</span> d2l</span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">256</span></span><br><span class="line">lr = <span class="number">0.1</span></span><br><span class="line">train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)</span><br></pre></td></tr></table></figure>
+<p>2 ）定义模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">net = nn.Sequential(nn.Flatten(),</span><br><span class="line">                    nn.Linear(<span class="number">784</span>, <span class="number">256</span>),    <span class="comment"># 定义隐藏层</span></span><br><span class="line">                    nn.ReLU(),              <span class="comment"># 定义激活函数</span></span><br><span class="line">                    nn.Linear(<span class="number">256</span>, <span class="number">10</span>))     <span class="comment"># 定义输出层</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_weights</span>(<span class="params">m</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(m) == nn.Linear:</span><br><span class="line">        nn.init.normal_(m.weight, std=<span class="number">0.01</span>)</span><br><span class="line"></span><br><span class="line">net.apply(init_weights);</span><br></pre></td></tr></table></figure>
+<p>3）训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num_epochs = <span class="number">10</span></span><br><span class="line">loss = nn.CrossEntropyLoss(reduction=<span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">trainer = torch.optim.SGD(net.parameters(), lr=lr)</span><br><span class="line"></span><br><span class="line">d2l.train_ch3(net, train_iter, test_iter, loss, num_epochs, trainer)</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -383,7 +413,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8821%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月21日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8822%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月22日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8823%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月23日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8824%E6%97%A5"><span class="nav-number">4.</span> <span class="nav-text">4月24日</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8821%E6%97%A5"><span class="nav-number">1.</span> <span class="nav-text">4月21日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8822%E6%97%A5"><span class="nav-number">2.</span> <span class="nav-text">4月22日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8823%E6%97%A5"><span class="nav-number">3.</span> <span class="nav-text">4月23日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8824%E6%97%A5"><span class="nav-number">4.</span> <span class="nav-text">4月24日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E6%9C%8825%E6%97%A5"><span class="nav-number">5.</span> <span class="nav-text">4月25日</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
