@@ -38,8 +38,16 @@
 <meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/14202/37/16349/3662/62bfb54eEc024469f/b6214055c0cd90d3.png">
 <meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/6863/27/21245/6091/62bfb5f8E17cbd2df/9a01110d1004fc4d.png">
 <meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/195144/12/26737/40111/62bfb7a8Eed225cc8/58c9d3a04a0b9919.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/02/n6qr8wsG7loNUyp.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/185951/12/26404/32468/62bfed46Eeb1822e8/f84ce9a50edbd31c.jpg">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/210806/21/24113/20368/62bff093E6ffd284d/63b275f5db5f60d4.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/218544/15/18595/50709/62bff146Ebfb93864/89d80fdbcacfd1da.jpg">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/215676/39/20434/22586/62bff2e9E833ab963/c76d2166c2a7f260.jpg">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/179652/8/26657/31809/62bff4a1Eb897bcbc/7907565e0bd2f1a6.jpg">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/21696/6/17687/4331/62bff4e3E52418c9e/384138b6cbf3c43b.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/222489/30/19179/3349/62bff522Eca740ec8/933e40e0ce7a6417.png">
 <meta property="article:published_time" content="2022-07-01T09:26:38.000Z">
-<meta property="article:modified_time" content="2022-07-02T03:28:57.083Z">
+<meta property="article:modified_time" content="2022-07-02T08:35:24.491Z">
 <meta property="article:author" content="P.M.Y">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -219,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-02 11:28:57" itemprop="dateModified" datetime="2022-07-02T11:28:57+08:00">2022-07-02</time>
+                <time title="修改时间：2022-07-02 16:35:24" itemprop="dateModified" datetime="2022-07-02T16:35:24+08:00">2022-07-02</time>
               </span>
 
           
@@ -267,6 +275,56 @@
 <p>对于单个智能体 i，在使用 Nash Q 值进行更新时，它除了需要知道全局状态 s 和其他智能体的动作 a 以外，还需要知道其他<strong>所有智能体在下一状态对应的纳什均衡策略π</strong>。进一步地，当前智能体就需要知道其他智能体的 Q(s’)值，这通常是根据观察到的其他智能体的奖励和动作来猜想和计算。所以，<strong>Nash Q-learning 方法对智能体能够获取的其他智能体的信息（包括动作、奖励等）具有较强的假设</strong>，在复杂的真实问题中一般不满足这样严格的条件，方法的适用范围受限。</p>
 <p><strong>伪代码</strong></p>
 <p><img src="https://m.360buyimg.com/babel/jfs/t1/195144/12/26737/40111/62bfb7a8Eed225cc8/58c9d3a04a0b9919.png" alt="v2-fb2ebcd4c9b5550a4c713e9353ee9688_720w.png"></p>
+<h4 id="3-完全合作关系"><a href="#3-完全合作关系" class="headerlink" title="3.完全合作关系"></a>3.完全合作关系</h4><ul>
+<li><strong>不需要协作机制</strong></li>
+</ul>
+<p>​    当所有智能体的<strong>联合最优动作</strong>是唯一的时候，完成该任务是不需要协作机制的。</p>
+<p>​    <strong>Team Q-learning</strong></p>
+<p>​    对于单个智能体 i，可以通过下面这个式子来求出它的最优动作 hi：</p>
+<p><img src="https://s2.loli.net/2022/07/02/n6qr8wsG7loNUyp.png" alt="v2-8904fe3a6f84d280ed2ba3cef5ce1b26_720w"></p>
+<p>​    <strong>Distributed Q-learning</strong></p>
+<p>​    不同于 Team Q-learning 在选取个体最优动作的时候<strong>需要知道其他智能体的动作</strong>，在该方法中智能体维护的是<strong>只依据自身动作所对应的 Q 值</strong>，从而得到个体最优动作。</p>
+<ul>
+<li><strong>隐式的协作机制</strong></li>
+</ul>
+<p>​    <strong>基于平均场理论的多智能体强化学习（MFMARL）</strong></p>
+<p>​    将<strong>传统强化学习方法（Q-learning）</strong>和<strong>平均场理论（mean field theory）</strong>相结合。</p>
+<p>​    <strong>建模思想：</strong></p>
+<p>​    对于其中的某个个体，所有<strong>其他个体</strong>产生的联合作用可以用一个 <strong>“平均量”</strong> 来定义和衡量。此时，对于其中一个个体来说，所有<strong>其他个体的影响相当于一个单体对于它的影响</strong>，这样的建模方式能够有效处理维度空间和计算量庞大的问题。</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/185951/12/26404/32468/62bfed46Eeb1822e8/f84ce9a50edbd31c.jpg" alt="v2-59f9a0839ad06f596c109b490e9c736c_720w.jpg"></p>
+<ul>
+<li><strong>显式的协作机制</strong></li>
+</ul>
+<p>​    主要应用于人机之间的交互，考虑现存的一些约束条件 / 先验规则等</p>
+<hr>
+<h3 id="多智能体深度强化学习"><a href="#多智能体深度强化学习" class="headerlink" title="多智能体深度强化学习"></a><strong>多智能体深度强化学习</strong></h3><h4 id="1-policy-based-的方法"><a href="#1-policy-based-的方法" class="headerlink" title="1.policy-based 的方法"></a><strong>1.policy-based 的方法</strong></h4><p><strong>多智能体 DDPG 方法（MADDPG）</strong></p>
+<p>在DDPG的基础上，使用<strong>集中式训练</strong>、<strong>分布式执行</strong>的机制</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/210806/21/24113/20368/62bff093E6ffd284d/63b275f5db5f60d4.png" alt="v2-e355d256ececf926db300baf3d3fda29_720w.png"></p>
+<p><strong>伪代码</strong></p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/218544/15/18595/50709/62bff146Ebfb93864/89d80fdbcacfd1da.jpg" alt="v2-b4f123f30b21ac2737ad0fc7082e4d48_720w.jpg"></p>
+<p>​    <strong>反事实多智能体策略梯度法方法（COMA）</strong></p>
+<p>​    侧重于研究每个智能体<strong>对这个共享奖励的贡献</strong>。</p>
+<p>​    COMA 方法在置信分配中利用了一种<strong>反事实基线</strong>：将智能体<strong>当前的动作</strong>和<strong>默认的动作</strong>进行比较，如果当前动作能够获得的回报<strong>高于</strong>默认动作，则说明当前动作提供了<strong>好的贡献</strong>，反之则说明当前动作提供了<strong>坏的贡献</strong>；默认动作的回报，则通过当前<strong>策略的平均效果</strong>来提供（即为反事实基线）。在对某个智能体和基线进行比较的时，需要<strong>固定其他智能体的动作</strong>。</p>
+<p>COMA 方法结合了<strong>集中式训练、分布式执行</strong>的思想：分布式的个体策略以局部观测值为输入、输出个体的动作；中心化的 critic 使用特殊的网络结构来输出优势函数值。</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/215676/39/20434/22586/62bff2e9E833ab963/c76d2166c2a7f260.jpg" alt="v2-6049ceb52b834eaf8b8075426517eccb_720w.jpg"></p>
+<h4 id="2-value-based-的方法"><a href="#2-value-based-的方法" class="headerlink" title="2.value-based 的方法"></a><strong>2.value-based 的方法</strong></h4><p><strong>QMIX</strong></p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/179652/8/26657/31809/62bff4a1Eb897bcbc/7907565e0bd2f1a6.jpg" alt="v2-8a21a9b13b5ab3f532f2fe90ee41116c_720w.jpg"></p>
+<p>在 QMIX 方法设计的网络结构中，每个智能体都拥有一个 <strong>DRQN 网络</strong>（绿色块），该网络以<strong>个体的观测值</strong>作为<strong>输入</strong>，使用循环神经网络来保留和利用历史信息，<strong>输出</strong>个体的<strong>局部 Qi 值</strong>。</p>
+<p>所有个体的局部 Qi 值<strong>输入混合网络</strong>模块（蓝色块），在该模块中，各层的权值是利用一个超网络（hypernetwork）以及绝对值计算产生的：绝对值计算保证了权值是非负的、使得局部 Q 值的整合满足单调性约束；利用全局状态 s 经过超网络来产生权值，能够更加充分和灵活地利用全局信息来估计联合动作的 Q 值，在一定程度上有助于全局 Q 值的学习和收敛。</p>
+<p>结合 DQN 的思想，以 <strong>Q_tot</strong> 作为迭代<strong>更新的目标</strong>，在每次迭代中根据 Q_tot 来选择各个智能体的动作，有：</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/21696/6/17687/4331/62bff4e3E52418c9e/384138b6cbf3c43b.png" alt="v2-a22c8bbabe980d267e9ffd1dadf7c4ac_720w.png"></p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/222489/30/19179/3349/62bff522Eca740ec8/933e40e0ce7a6417.png" alt="v2-590f6211c81bdde1bc87355cb673b146_720w.png"></p>
+<p>最终学习收敛到最优的 Q_tot 并推出对应的策略，即为 QMIX 方法的整个学习流程。</p>
+<hr>
+<h3 id="多智能体强化学习的应用"><a href="#多智能体强化学习的应用" class="headerlink" title="多智能体强化学习的应用"></a><strong>多智能体强化学习的应用</strong></h3><h4 id="1-游戏应用"><a href="#1-游戏应用" class="headerlink" title="1.游戏应用"></a><strong>1.游戏应用</strong></h4><ul>
+<li><strong>分步对抗</strong></li>
+</ul>
+<p>​       AlphaGo</p>
+<ul>
+<li><strong>实时战略</strong></li>
+</ul>
+<p>​       AlphaStar、OpenAI Five</p>
+<h4 id="2-多机器人控制"><a href="#2-多机器人控制" class="headerlink" title="2.多机器人控制"></a>2.多机器人控制</h4><p>主要使用<strong>集中式学习</strong>和分<strong>布式执行</strong>的机制，在学习过程中机器人之间<strong>共享</strong>奖励、策略网络和值函数网络，通过共享的经验样本来引导相互之间达成<strong>隐式的协作机制</strong>。</p>
 
     </div>
 
@@ -347,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B%EF%BC%88MDP%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">马尔科夫决策过程（MDP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E5%8D%9A%E5%BC%88%EF%BC%88%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">马尔科夫博弈（随机博弈）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E6%8C%91%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题与挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">算法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%AE%8C%E5%85%A8%E7%AB%9E%E4%BA%89%E5%85%B3%E7%B3%BB"><span class="nav-number">4.1.</span> <span class="nav-text">1.完全竞争关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%8D%8A%E5%90%88%E4%BD%9C%E5%8D%8A%E7%AB%9E%E4%BA%89%E5%85%B3%E7%B3%BB"><span class="nav-number">4.2.</span> <span class="nav-text">2.半合作半竞争关系</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B%EF%BC%88MDP%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">马尔科夫决策过程（MDP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E5%8D%9A%E5%BC%88%EF%BC%88%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">马尔科夫博弈（随机博弈）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E6%8C%91%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题与挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">算法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%AE%8C%E5%85%A8%E7%AB%9E%E4%BA%89%E5%85%B3%E7%B3%BB"><span class="nav-number">4.1.</span> <span class="nav-text">1.完全竞争关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%8D%8A%E5%90%88%E4%BD%9C%E5%8D%8A%E7%AB%9E%E4%BA%89%E5%85%B3%E7%B3%BB"><span class="nav-number">4.2.</span> <span class="nav-text">2.半合作半竞争关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%AE%8C%E5%85%A8%E5%90%88%E4%BD%9C%E5%85%B3%E7%B3%BB"><span class="nav-number">4.3.</span> <span class="nav-text">3.完全合作关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">5.</span> <span class="nav-text">多智能体深度强化学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-policy-based-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">5.1.</span> <span class="nav-text">1.policy-based 的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-value-based-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">5.2.</span> <span class="nav-text">2.value-based 的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">多智能体强化学习的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%B8%B8%E6%88%8F%E5%BA%94%E7%94%A8"><span class="nav-number">6.1.</span> <span class="nav-text">1.游戏应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%A4%9A%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6"><span class="nav-number">6.2.</span> <span class="nav-text">2.多机器人控制</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
