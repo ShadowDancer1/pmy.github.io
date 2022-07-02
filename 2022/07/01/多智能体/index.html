@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon001.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon001.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="多智能体强化学习历程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多智能体强化学习笔记">
+<meta property="og:url" content="http://example.com/2022/07/01/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/index.html">
+<meta property="og:site_name" content="动态">
+<meta property="og:description" content="多智能体强化学习历程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/07/02/F8GXkChPVNYHeJT.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/07/02/CjIKbfQOHmLW2pD.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/02/Gs96iHocnP2Jh5f.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/02/3AmqJ9W4M7c5hVP.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/02/OJMdTtcXUCEYB58.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/194022/28/25790/121124/62bfb251E546db5e8/531755bccd959cc8.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/72161/35/19741/3535/62bfad9dE3b423a23/117487ef2bc48c0c.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/220291/31/19542/47899/62bfb49eEe367c41d/a531989d9af513cc.jpg">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/14202/37/16349/3662/62bfb54eEc024469f/b6214055c0cd90d3.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/6863/27/21245/6091/62bfb5f8E17cbd2df/9a01110d1004fc4d.png">
+<meta property="og:image" content="https://m.360buyimg.com/babel/jfs/t1/195144/12/26737/40111/62bfb7a8Eed225cc8/58c9d3a04a0b9919.png">
+<meta property="article:published_time" content="2022-07-01T09:26:38.000Z">
+<meta property="article:modified_time" content="2022-07-02T03:26:34.799Z">
+<meta property="article:author" content="P.M.Y">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/07/02/F8GXkChPVNYHeJT.jpg">
+
+<link rel="canonical" href="http://example.com/2022/07/01/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>多智能体强化学习笔记 | 动态</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3be792f493e893537d1d13a6c8b3b054";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">动态</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/01/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/creator.jpg">
+      <meta itemprop="name" content="P.M.Y">
+      <meta itemprop="description" content="记录·分享·进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="动态">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          多智能体强化学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+
+	    
+
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-01 17:26:38" itemprop="dateCreated datePublished" datetime="2022-07-01T17:26:38+08:00">2022-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-02 11:26:34" itemprop="dateModified" datetime="2022-07-02T11:26:34+08:00">2022-07-02</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://s2.loli.net/2022/07/02/F8GXkChPVNYHeJT.jpg" alt=""></p>
+<p>多智能体强化学习历程</p>
+<span id="more"></span>
+<h3 id="马尔科夫决策过程（MDP）"><a href="#马尔科夫决策过程（MDP）" class="headerlink" title="马尔科夫决策过程（MDP）"></a>马尔科夫决策过程（MDP）</h3><p>M=(S,A,R,P,γ)</p>
+<p><img src="https://s2.loli.net/2022/07/02/CjIKbfQOHmLW2pD.png" alt="v2-2081f55ed640c062161afb93e3c5c022_720w"></p>
+<hr>
+<h3 id="马尔科夫博弈（随机博弈）"><a href="#马尔科夫博弈（随机博弈）" class="headerlink" title="马尔科夫博弈（随机博弈）"></a>马尔科夫博弈（随机博弈）</h3><p>M=&lt; S,A1,…,An,T,R1,…,Rn &gt;</p>
+<p><img src="https://s2.loli.net/2022/07/02/Gs96iHocnP2Jh5f.png" alt="v2-6bf1f5737f9f654929fab84f73cba012_720w"></p>
+<p>某个智能体 i 获得的累积奖励的期望可以表示为：</p>
+<p><img src="https://s2.loli.net/2022/07/02/3AmqJ9W4M7c5hVP.png" alt="v2-c1313c5a8edd7903d62deca7bc4e8ab4_r"></p>
+<p><strong>纳什均衡（Nash equilibrium）</strong>：在多个智能体中达成的一个<strong>不动点</strong>，对于其中任意一个智能体来说，无法通过采取其他的策略来获得更高的累积回报，在数学形式上可以表达为：</p>
+<p><img src="https://s2.loli.net/2022/07/02/OJMdTtcXUCEYB58.png" alt="v2-60624d45df1cec2282099d43d9544f59_720w"></p>
+<p>在该式中，$π^{i,}$表示智能体 i 的纳什均衡策略。纳什均衡不一定是<strong>全局最优</strong>，但它是在概率上<strong>最容易产生</strong>的结果，是在学习时<strong>较容易收敛</strong>到的状态。<strong>均衡求解方法</strong>是多智能体强化学习的<strong>基本方法</strong>。</p>
+<hr>
+<h3 id="遇到的问题与挑战"><a href="#遇到的问题与挑战" class="headerlink" title="遇到的问题与挑战"></a>遇到的问题与挑战</h3><p>1) 环境的<strong>不稳定性</strong>：智能体在做决策的同时，其他智能体也在采取动作；环境状态的变化与所有智能体的<strong>联合动作</strong>相关；<br>2) 智能体<strong>获取信息的局限性</strong>：不一定能够获得全局的信息，智能体仅能获取<strong>局部的观测信息</strong>，但无法得知<strong>其他智能体</strong>的<strong>观测信息、动作和奖励</strong>等信息；<br>3) 个体的<strong>目标一致性</strong>：各智能体的<strong>目标</strong>可能是<strong>最优的全局回报</strong>；也可能是<strong>各自局部回报的最优</strong>；<br>4) <strong>可拓展性</strong>：在大规模的多智能体系统中，就会涉及到<strong>高维度的状态空间和动作空间</strong>，对于模型表达能力和真实场景中的硬件算力有一定的要求。</p>
+<hr>
+<h3 id="算法介绍"><a href="#算法介绍" class="headerlink" title="算法介绍"></a>算法介绍</h3><h4 id="1-完全竞争关系"><a href="#1-完全竞争关系" class="headerlink" title="1.完全竞争关系"></a>1.完全竞争关系</h4><p><strong>minimax Q-learning</strong></p>
+<p>基于强化学习中的 <strong>Q-learning</strong> 方法，利用 minimax 思想定义的值函数、通过迭代<strong>更新 Q 值</strong>，而<strong>选择动作</strong>则是通过<strong>线性规划</strong>来求解当前阶段状态 s 对应的<strong>纳什均衡策略</strong>。</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/194022/28/25790/121124/62bfb251E546db5e8/531755bccd959cc8.png" alt="1111.png"></p>
+<p>最优值函数的定义：对于智能体 i，它需要考虑在其他智能体（i-）采取的动作（a-）令自己（i）<strong>回报最差</strong>（min）的情况下，能够获得的<strong>最大（max）期望回报</strong>。该回报可以表示为：</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/72161/35/19741/3535/62bfad9dE3b423a23/117487ef2bc48c0c.png" alt="v2-3164b5cd38d2817caa3a7a347631d131_720w.png"></p>
+<p>这个值函数表明，当前智能体在<strong>考虑了对手策略</strong>的情况下使用<strong>贪心选择</strong>，使得智能体<strong>容易收敛</strong>到纳什均衡策略。</p>
+<p><strong>伪代码</strong></p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/220291/31/19542/47899/62bfb49eEe367c41d/a531989d9af513cc.jpg" alt="v2-eb35a6589f9ab0812d8c82073bfb5d80_720w.jpg"></p>
+<h4 id="2-半合作半竞争关系"><a href="#2-半合作半竞争关系" class="headerlink" title="2.半合作半竞争关系"></a>2.半合作半竞争关系</h4><p><strong>Nash Q-learning</strong></p>
+<p><strong>每个智能体</strong>采用普通的 <strong>Q-Learning</strong>方法，并且都采取<strong>贪心</strong>的方式、即最大化各自的 Q 值时，这样的方法容易收敛到纳什均衡策略。Nash Q-learning 方法可用于处理<strong>以纳什均衡为解</strong>的多智能体学习问题。它的<strong>目标</strong>是通过寻找<strong>每一个状态的纳什均衡点</strong>，从而在学习过程中<strong>基于纳什均衡策略来更新 Q 值</strong>。</p>
+<p>具体地，对于一个智能体 i 来说，它的 Nash Q 值定义为：</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/14202/37/16349/3662/62bfb54eEc024469f/b6214055c0cd90d3.png" alt="v2-aa963d52c7d87d3200a92ca4238f50ad_720w.png"></p>
+<p>此时，假设了所有智能体从下一时刻开始都采取纳什均衡策略，纳什策略可以通过二次规划（仅考虑离散的动作空间，π是各动作的概率分布）来求解。</p>
+<p>在 Q 值的迭代更新过程中，使用 Nash Q 值来更新：</p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/6863/27/21245/6091/62bfb5f8E17cbd2df/9a01110d1004fc4d.png" alt="v2-e3c75919fca8d62adda2e7397b66a3e5_720w.png"></p>
+<p>对于单个智能体 i，在使用 Nash Q 值进行更新时，它除了需要知道全局状态 s 和其他智能体的动作 a 以外，还需要知道其他<strong>所有智能体在下一状态对应的纳什均衡策略π</strong>。进一步地，当前智能体就需要知道其他智能体的 Q(s’)值，这通常是根据观察到的其他智能体的奖励和动作来猜想和计算。所以，<strong>Nash Q-learning 方法对智能体能够获取的其他智能体的信息（包括动作、奖励等）具有较强的假设</strong>，在复杂的真实问题中一般不满足这样严格的条件，方法的适用范围受限。</p>
+<p><strong>伪代码</strong></p>
+<p><img src="https://m.360buyimg.com/babel/jfs/t1/195144/12/26737/40111/62bfb7a8Eed225cc8/58c9d3a04a0b9919.png" alt="v2-fb2ebcd4c9b5550a4c713e9353ee9688_720w.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i>强化学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/11/DRL%E4%BB%A3%E7%A0%81%E5%BA%93/" rel="prev" title="DRL代码库">
+      <i class="fa fa-chevron-left"></i> DRL代码库
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B%EF%BC%88MDP%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">马尔科夫决策过程（MDP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E5%8D%9A%E5%BC%88%EF%BC%88%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">马尔科夫博弈（随机博弈）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E6%8C%91%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题与挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">算法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%AE%8C%E5%85%A8%E7%AB%9E%E4%BA%89%E5%85%B3%E7%B3%BB"><span class="nav-number">4.1.</span> <span class="nav-text">1.完全竞争关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%8D%8A%E5%90%88%E4%BD%9C%E5%8D%8A%E7%AB%9E%E4%BA%89%E5%85%B3%E7%B3%BB"><span class="nav-number">4.2.</span> <span class="nav-text">2.半合作半竞争关系</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="P.M.Y"
+      src="/images/creator.jpg">
+  <p class="site-author-name" itemprop="name">P.M.Y</p>
+  <div class="site-description" itemprop="description">记录·分享·进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">P.M.Y</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
