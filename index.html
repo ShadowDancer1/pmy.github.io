@@ -329,6 +329,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/03/%E5%9F%BA%E4%BA%8EPER-MATD3%E7%9A%84%E5%A4%9A%E6%97%A0%E4%BA%BA%E6%9C%BA%E6%94%BB%E9%98%B2%E5%AF%B9%E6%8A%97%E6%9C%BA%E5%8A%A8%E7%AD%96%E7%95%A5%E7%A0%94%E7%A9%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/creator.jpg">
+      <meta itemprop="name" content="P.M.Y">
+      <meta itemprop="description" content="记录·分享·进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="动态">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/03/%E5%9F%BA%E4%BA%8EPER-MATD3%E7%9A%84%E5%A4%9A%E6%97%A0%E4%BA%BA%E6%9C%BA%E6%94%BB%E9%98%B2%E5%AF%B9%E6%8A%97%E6%9C%BA%E5%8A%A8%E7%AD%96%E7%95%A5%E7%A0%94%E7%A9%B6/" class="post-title-link" itemprop="url">基于PER-MATD3的多无人机攻防对抗机动策略研究</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+
+	    
+
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-03 18:34:22" itemprop="dateCreated datePublished" datetime="2022-09-03T18:34:22+08:00">2022-09-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-05 20:43:48" itemprop="dateModified" datetime="2022-09-05T20:43:48+08:00">2022-09-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="摘要："><a href="#摘要：" class="headerlink" title="摘要："></a>摘要：</h4><p>本文以障碍物随机分布的复杂环境下多无人机攻防对抗机动决策为研究背景，构建了攻防双方运动模型及雷达探 测模型，将<strong>TD3</strong>(Twin Delayed Deep Deterministic policy gradient) 算法扩展到多智能体领域中解决<strong>MADDPG</strong>(Multi-Agent Deep Deterministic Policy Gradient)算法存在值函数高估的问题；在此基础上，为了提升算法学习效率，结合<strong>优先经验回放机制</strong>提出了多智能体双延迟深度确定性策略梯度PER-MATD3(Prioritized Experience Replay Multi-Agent Twin Delayed Deep Deterministic policy gradient algorithm)算法。 通过仿真实验表明本文所设计的方法在多无人机攻防对抗机动决策问题中具有较好的对抗效果， 并通过对比验证了PER-MATD3算法相较其它算法在收敛速度和稳定性方面的优势。</p>
+<h4 id="传统决策方法："><a href="#传统决策方法：" class="headerlink" title="传统决策方法："></a>传统决策方法：</h4><p><strong>1.比例引导法</strong></p>
+<p>优点：实现容易，计算速度快。</p>
+<p>缺点：数学模型方法不能适应于有障碍及威胁的复杂强对抗环境中， 并且一般需已知目标运动方式， 扩展性比较差。  </p>
+<p><strong>2.人工势场法</strong></p>
+<p>优点：将目标和障碍物的速度引入人工势场法中， 使得无人机在动态环境下实现避障及目标跟踪。  </p>
+<p>缺点：需提前了解环境信息， 且一般容易陷入局部最优。  </p>
+<p><strong>3.几何学法</strong></p>
+<p>优点：利用阿波罗尼斯圆法来研究不同对抗条件下多追捕者追捕单逃逸者的成功捕获条件。   </p>
+<p>缺点：一般假定对抗双方能够获取所有对抗信息， 且双方初始状态对机动决策影响极大。  </p>
+<p><strong>4.微分博弈法</strong></p>
+<p>优点：微分博弈方法以数学公式形式描述对抗模型， 有着严格的推导过程 。 </p>
+<p>缺点：数学求解过程随着对象数量增加变得十分困难。  </p>
+<p>上述方法在实际条件中存在各自的局限性问题， 与实际条件很难对应， 无法在多机对抗的复杂高动态场景下取得较好的应用效果。  </p>
+<h4 id="深度强化学习方法—PER-MATD3"><a href="#深度强化学习方法—PER-MATD3" class="headerlink" title="深度强化学习方法—PER-MATD3"></a>深度强化学习方法—PER-MATD3</h4><p>针对存在障碍物的复杂环境下多无人机攻防对抗问题， 在考虑无人机雷达探测范围和火力打击范围的情况下， 利用深度强化学习算法开展无人机攻防对抗机动决策方法的研究。 主要是针对现有较流行的MADDPG算法中存在值函数高估问题， 将单智能体TD3算法扩展到多智能体领域， 提出了MATD3算法， 缓解了值函数高估问题， 从而提高了算法收敛速度； 为了进一步加快算法的收敛速度、 提升算法的稳定性， 提出了基于优先经验回放机制的PER-MATD3算法。 </p>
+<h4 id="1-问题描述与建模"><a href="#1-问题描述与建模" class="headerlink" title="1 问题描述与建模"></a>1 问题描述与建模</h4><p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z7Matz"><img src="https://www.helloimg.com/images/2022/09/04/Z7Matz.png" alt="Z7Matz.png"></a></p>
+<p><strong>环境描述：</strong>在有限平面区域内，存在一架蓝方进攻无人机和三架红方防守无人机。</p>
+<p><strong>蓝方（进攻方）任务</strong>：从初始位置（ 蓝色小旗）突破防守无人机的阻拦，到达红方基地区域（图中浅红色区域为雷达站等军事目标）。</p>
+<p><strong>红方（防守方）任务：</strong>从初始位置(红色小旗)去拦截并击毁进攻无人机。  </p>
+<p><strong>无人机运动学模型：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z7MmHq"><img src="https://www.helloimg.com/images/2022/09/04/Z7MmHq.png" alt="Z7MmHq.png"></a></p>
+<p>状态量及控制量约束条件：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z7M4CT"><img src="https://www.helloimg.com/images/2022/09/04/Z7M4CT.png" alt="Z7M4CT.png"></a></p>
+<p><strong>雷达探测模型：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z7Mnxo"><img src="https://www.helloimg.com/images/2022/09/04/Z7Mnxo.png" alt="Z7Mnxo.png"></a></p>
+<h4 id="2-基于多智能体强化学习的多机攻防对抗"><a href="#2-基于多智能体强化学习的多机攻防对抗" class="headerlink" title="2 基于多智能体强化学习的多机攻防对抗"></a>2 基于多智能体强化学习的多机攻防对抗</h4><p>多智能体与环境交互过程</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z7Il7v"><img src="https://www.helloimg.com/images/2022/09/05/Z7Il7v.png" alt="Z7Il7v.png"></a></p>
+<h4 id="PER-MATD3算法"><a href="#PER-MATD3算法" class="headerlink" title="PER-MATD3算法"></a>PER-MATD3算法</h4><p><strong>特点：</strong></p>
+<p>沿用<strong>TD3算法</strong>将动作值函数进行解耦，使用两个Q网络来近似动作选择和动作评估， 能够有效解决高估问题， 在单智能体中相较DDPG算法一般表现出更好的效果。   </p>
+<p><strong>MATD3算法</strong>有以下几个特点：一是每个智能体不仅有各自的当前策略网络及对应的目标策略网络， 还有两个中心化的独立评估网络及对应的目标网络， 通过选择较小的 Q 值从而接近真实 Q 值以缓解高估问题； 二是为了适用于环境不稳定的情况， 采用中心训练分布执行的架构； 三是使用策略延迟更新方式， 即评估网络在更新一定步数之后再对策略网络进行更新。  </p>
+<p><strong>优先经验回放机制（PER）</strong>是在 DQN 算法中首次提出的， 在经验回放时候， 不是简单地随机采样， 而是依照每个样本的重要程度对其优先级排序， 在抽样时能够更多次的访问重要程度较高的样本，从而能够有效的学习。 而样本的重要程度可以利用时间差分法中的 TD-error 进行衡量， TD-error较大的样本被赋予较高的优先级， 相反， TDerror 较小的样本被赋予较低的优先级。  </p>
+<h4 id="3-基于PER-MATD3算法的多无人机攻防对抗机动决策设计"><a href="#3-基于PER-MATD3算法的多无人机攻防对抗机动决策设计" class="headerlink" title="3 基于PER-MATD3算法的多无人机攻防对抗机动决策设计"></a>3 基于PER-MATD3算法的多无人机攻防对抗机动决策设计</h4><h4 id="状态空间"><a href="#状态空间" class="headerlink" title="状态空间"></a>状态空间</h4><p><strong>进攻方：</strong>自身的位置信息、 航向角、 速度大小、 无人机对障碍物及边界的探测信息和目标方向信息。</p>
+<p><strong>防守方：</strong>除了自身的位置信息、 航向角、 速度大小、 无人机对障碍物及边界的探测信息、 进攻目标的方向信息以外， 还能通过地面雷达实时了解到其它两架友方无人机与自身的距离信息。   </p>
+<h4 id="动作空间"><a href="#动作空间" class="headerlink" title="动作空间"></a>动作空间</h4><p>无人机的加速度和角速度  </p>
+<h4 id="奖励函数"><a href="#奖励函数" class="headerlink" title="奖励函数"></a>奖励函数</h4><p><strong>进攻方：</strong>为了解决稀疏奖励所带来的样本训练效率低下的问题， 本实验中奖励函数采用引导型奖励和稀疏奖励相结合的方式。 在无人机与环境交互过程中， 如果碰撞边界、 或者碰撞障碍物、 或完成任务， 则采用稀疏奖励； 这三种情况均不发生的时候， 采用引导型奖励。  </p>
+<p>引导型奖励公式如下所示：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z763j9"><img src="https://www.helloimg.com/images/2022/09/05/Z763j9.png" alt="Z763j9.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z76eEX"><img src="https://www.helloimg.com/images/2022/09/05/Z76eEX.png" alt="Z76eEX.png"></a></p>
+<p>其中，Rd为无人机上一时刻和当前时刻与目标的相对距离的变化量 ，Rr为无人机的每个探测传感器状态量相对于1的值（x取值0到1，无人机距离障碍物越远，x越大），Rv为无人机当前速度大小所带来的奖励量，Rc为无人机当前航向与最优航向的偏差。</p>
+<p><strong>防守方：</strong> 考虑加入防守无人机之间的碰撞惩罚，仅当防守无人机之间距离较近时才给予惩罚。</p>
+<p>碰撞惩罚公式如下所示：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z76AAz"><img src="https://www.helloimg.com/images/2022/09/05/Z76AAz.png" alt="Z76AAz.png"></a></p>
+<p>稀疏奖励公式如下所示：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/Z76LNA"><img src="https://www.helloimg.com/images/2022/09/05/Z76LNA.png" alt="Z76LNA.png"></a></p>
+<p>其中，R1为无人机碰撞战场边界的惩罚，Rok为第 k 种障碍物的半径，dis(*)为二维空间的欧式距离，R2为无人机碰撞障碍物的惩罚 ，Rt为目标区域的半径，Rf为防守无人机的火力打击距离，R3为无人机完成任务的奖励或任务失败的惩罚， 对于进攻无人机到达目标区域则为任务成功， 被防守无人机击毁为任务失败， 对于防守无人机则相反。    </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/11/DRL%E4%BB%A3%E7%A0%81%E5%BA%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2095,7 +2207,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2108,7 +2220,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
