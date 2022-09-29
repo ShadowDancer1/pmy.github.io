@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon001.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon001.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="智能博弈领域已逐渐成为当前AI研究的热点之一，游戏AI领域、智能兵棋领域都在近年取得了一系列的研究突破。但是，游戏 AI 如何应用到实际的智能作战推演依然面临巨大的困难。综合分析智能博弈领域的国内外整体研究进展，详细剖析智能作战推演的主要属性需求，并结合当前最新的强化学习发展概况进行阐述。从智能博弈领域主流研究技术、相关智能决策技术、作战推演技术难点3个维度综合分析游戏AI发展为智能作战推演的可行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智能博弈综述：游戏AI对作战推演的启示">
+<meta property="og:url" content="http://example.com/2022/09/27/%E6%99%BA%E8%83%BD%E5%8D%9A%E5%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%9A%E6%B8%B8%E6%88%8FAI%E5%AF%B9%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E7%9A%84%E5%90%AF%E7%A4%BA/index.html">
+<meta property="og:site_name" content="动态">
+<meta property="og:description" content="智能博弈领域已逐渐成为当前AI研究的热点之一，游戏AI领域、智能兵棋领域都在近年取得了一系列的研究突破。但是，游戏 AI 如何应用到实际的智能作战推演依然面临巨大的困难。综合分析智能博弈领域的国内外整体研究进展，详细剖析智能作战推演的主要属性需求，并结合当前最新的强化学习发展概况进行阐述。从智能博弈领域主流研究技术、相关智能决策技术、作战推演技术难点3个维度综合分析游戏AI发展为智能作战推演的可行">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-27T18:50:17.000Z">
+<meta property="article:modified_time" content="2022-09-28T14:01:19.578Z">
+<meta property="article:author" content="P.M.Y">
+<meta property="article:tag" content="深度强化学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/09/27/%E6%99%BA%E8%83%BD%E5%8D%9A%E5%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%9A%E6%B8%B8%E6%88%8FAI%E5%AF%B9%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E7%9A%84%E5%90%AF%E7%A4%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>智能博弈综述：游戏AI对作战推演的启示 | 动态</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3be792f493e893537d1d13a6c8b3b054";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">动态</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/27/%E6%99%BA%E8%83%BD%E5%8D%9A%E5%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%9A%E6%B8%B8%E6%88%8FAI%E5%AF%B9%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E7%9A%84%E5%90%AF%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/creator.jpg">
+      <meta itemprop="name" content="P.M.Y">
+      <meta itemprop="description" content="记录·分享·进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="动态">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          智能博弈综述：游戏AI对作战推演的启示
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+
+	    
+
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-09-28 02:50:17 / 修改时间：22:01:19" itemprop="dateCreated datePublished" datetime="2022-09-28T02:50:17+08:00">2022-09-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>智能博弈领域已逐渐成为当前AI研究的热点之一，游戏AI领域、智能兵棋领域都在近年取得了一系列的研究突破。但是，游戏 AI 如何应用到实际的智能作战推演依然面临巨大的困难。综合分析智能博弈领域的国内外整体研究进展，详细剖析智能作战推演的主要属性需求，并结合当前最新的强化学习发展概况进行阐述。从智能博弈领域主流研究技术、相关智能决策技术、作战推演技术难点3个维度综合分析游戏AI发展为智能作战推演的可行性，最后给出未来智能作战推演的发展建议。以期为智能博弈领域的研究人员介绍一个比较清晰的发展现状并提供有价值的研究思路。</p>
+<span id="more"></span>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://www.infocomm-journal.com/znkx/article/2022/2096-6652/2096-6652-4-2-00157.shtml">智能博弈综述：游戏AI对作战推演的启示 (infocomm-journal.com)</a></p>
+<h3 id="1-智能作战推演主要属性需求"><a href="#1-智能作战推演主要属性需求" class="headerlink" title="1 智能作战推演主要属性需求"></a>1 智能作战推演主要属性需求</h3><h4 id="1-1-状态空间"><a href="#1-1-状态空间" class="headerlink" title="1.1 状态空间"></a>1.1 状态空间</h4><p>在《墨子·未来指挥官系统》中，状态空间主要是每个作战单元实体的状态信息，是由想定中敌我双方所有的作战单元信息汇聚形成的。例如敌我双方坦克单元应包括坐标、速度、朝向、载弹量、攻击武器、规模等。</p>
+<h4 id="1-2-动作空间设计"><a href="#1-2-动作空间设计" class="headerlink" title="1.2 动作空间设计"></a>1.2 动作空间设计</h4><p>对于《星际争霸》这类实时策略对抗游戏来说，因为需要控制大量的作战单元和建筑单元，动作空间可以达到<strong>10^52 000</strong>，而对于《CMANO》和《墨子·未来指挥官系统》这类更加贴近军事作战推演的游戏来说，需要对每个作战单元进行大量精细的控制。在作战推演中，每个作战单元实际都包括大量的具体执行动作，以作战飞机为例，应包括飞行航向、飞行高度、飞行速度、自动开火距离、导弹齐射数量等。因此，实际作战推演需要考虑的动作空间可以达到<strong>10^100 000+</strong>。</p>
+<h4 id="1-3-决策空间构建"><a href="#1-3-决策空间构建" class="headerlink" title="1.3 决策空间构建"></a>1.3 决策空间构建</h4><p>智能博弈中的决策主要是指博弈对抗过程中的<strong>宏观战略的选择</strong>以及<strong>微观具体动作的选择</strong>。</p>
+<p><strong>宏观战略：</strong>在推演开始前，进行整体战略部署，例如分配导弹打击目标，规划舰艇、战斗机活动的大致区域，以及各个任务的开始执行时间等。</p>
+<p><strong>微观动作：</strong>？</p>
+<p>现有思路是利用分层强化学习的方法进行解决，根据具体对抗态势进行宏观战略决策的选择，然后根据不同的决策再分别执行对应的微观具体动作，这样可以有效降低智能决策数量，明显提高智能决策的执行效率。</p>
+<h4 id="1-4-胜利条件设置"><a href="#1-4-胜利条件设置" class="headerlink" title="1.4 胜利条件设置"></a>1.4 胜利条件设置</h4><p>博弈对抗的胜利是一局游戏结束的标志。而不同游戏中的胜利条件类型也不同，围棋、国际象棋这些棋类博弈对抗过程中有<strong>清晰明确的获胜条件</strong>。而 Atari 这类游戏只需要<strong>获得足够的分数</strong>即可获得胜利。对于《王者荣耀》这类推塔游戏，不管过程如何，只要最终攻破敌方水晶就可以获取胜利。<strong>这些胜利条件使得基于深度强化学习技术的游戏AI开发相对容易，在回报值设置中给予最终奖励更高的回报值，</strong>总归能训练出较好的 AI 智能。然而对于策略对抗游戏，甚至实际作战推演来说，获胜条件更加<strong>复杂</strong>，目标更多。比如，有时可能需要考虑在我方损失最低的情况下实现作战目标，而有时则需要不计代价地快速实现作战目标，这些复杂多元的获胜条件设置将使得强化学习的回报值设置不能是简单地根据专家经验进行赋值，而需要根据真实演习数据构建奖赏函数，通过<strong>逆强化学习技术</strong>满足复杂多变的作战场景中不同阶段、不同目标的作战要求。</p>
+<h4 id="1-5-奖励值设置"><a href="#1-5-奖励值设置" class="headerlink" title="1.5 奖励值设置"></a>1.5 奖励值设置</h4><p>博弈对抗过程中<strong>最核心的环节</strong>是设置回报值，合理有效的回报值可以保证高效地训练出高水平AI。对于《星际争霸》《王者荣耀》等游戏，可以按照固定的条件设置明确的回报值，例如将取得最终胜利设置为固定的回报值。但是一局游戏的时间有时较长，在整局对抗过程中，如果只有最终的回报值将导致训练非常低效。这就是作战推演中遇到的一个难题，即<strong>回报值稀疏问题</strong>。为了解决这个难题，现有的解决方案都是在对抗过程中<strong>设置许多细节条件</strong>，如获得回报值或损失回报值的具体行为。比如在“庙算·智胜”平台中的博弈对抗，可以设置坦克击毁对手、占领夺控点即可获得回报值，如果被打击、失去夺控点等则会损失回报值，甚至为了加快收敛防止算子长期不能达到有效地点，会在每步（step）都损失微小的回报值。《觉悟AI》也同样设置了详细的奖赏表[<a href="javascript:;">36</a>]，从资源、KDA（杀人率（kill，K），死亡率（death，D），支援率（assista， A））、打击、推进、输赢 5 个维度设置了非常详细的具体动作回报值。这样就可以有效解决回报值稀疏的问题。但是，对于复杂的作战推演来说，设计回报函数可能还需要更多的细节。因为作战情况将更加复杂多样，需要利用逆强化学习[<a href="javascript:;">41</a>-<a href="javascript:;">42</a>]，通过以往的作战数据反向构建奖赏函数。</p>
+<h4 id="1-6-战争迷雾"><a href="#1-6-战争迷雾" class="headerlink" title="1.6 战争迷雾"></a>1.6 战争迷雾</h4><p>战争迷雾主要是指在博弈对抗过程中存在信息的不完全情况，我方并不了解未探索的区域实际的态势信息。围棋、国际象棋这类博弈对抗游戏中不存在这类问题。但是在《星际争霸》《Dota 2》《王者荣耀》以及《CMANO》等RTS游戏中设计了这一机制。实际的作战推演过程中同样也存在此类问题，但是情况更加复杂。在实际作战推演中，可以考虑利用<strong>不完全信息博弈</strong>解决这个问题，已有学者利用不完全信息博弈解决了德州扑克中的不完全信息问题[<a href="javascript:;">29</a>]，但是在实际作战推演中这一问题还需要进一步探讨研究。</p>
+<h4 id="1-7-观察信息"><a href="#1-7-观察信息" class="headerlink" title="1.7 观察信息"></a>1.7 观察信息</h4><p>这里需要对智能博弈中的观察信息与游戏状态空间进行区分，观察信息主要是指博弈的 agent在当前态势下可以获取的态势信息，是部分状态信息。由于在智能博弈对抗过程中会产生战争迷雾问题，因此需要在处理博弈信息时设置 agent 可以获取到的信息。《星际争霸》中观察信息主要有两层意思，一个层面是屏幕限制的区域更易于获取态势信息，因为玩家更直观的注意力在屏幕局域，部分注意力在小地图局域。为了更加符合实际， AlphaStar也按照这种限制对《星际争霸》中的注意力区域进行限制，从而更好地防止 AI 产生作弊行为。而这也是部分《星际争霸》AI被人诟病的原因，即没有限制机器的关注区域。另一个层面是对《星际争霸》中作战单元可观察区域内的态势信息进行获取，对于不能获取的态势信息则只能评估预测，而这一部分则涉及对手建模部分，主要利用部分可观察马尔可夫决策过程（partially observable Markov decision process，POMDP）[<a href="javascript:;">43</a>]，这一技术明显难于完全信息博弈。而对于围棋游戏来说，其中的态势信息是完全可获取的，属于完全信息博弈，态势信息即观察信息。并且围棋游戏属于回合制，相对于即时策略游戏，其有更加充分的获取态势信息的时间。因此，则可以利用蒙特卡洛树搜索（Monte Carlo tree search，MCTS）算法对所获取的围棋游戏中的观察信息进行详细分析，计算出所有可能的结果，进而得出最佳的方案策略。《Dota 2》中的观察信息是指所控制的某个“英雄”所获取的态势信息，其主要也是对主屏幕的态势信息和小地图的态势信息进行结合处理。《王者荣耀》也与此类似，其主要以小地图的宏观信息进行训练，然后以此为基础为战略方案提供支持，如游戏中的“英雄”是去野区发育还是去中路对抗。同时，对主屏幕态势信息进行特征提取，结合强化学习训练，可以得出战术层面的方案和建议，是去选择回塔防御还是进草丛躲避，或者推塔进攻。墨子兵棋推演系统和《CMANO》则更加接近真实作战推演，在作战信息获取各个方面都高度模拟了作战推演的场景，需要获取具体的对空雷达、对地雷达、导弹探测、舰艇雷达等信息后才能判断态势信息，这部分可观察信息非常复杂，需要结合各种情况才能发现部分目标，对于战争迷雾更加真实。因此，作战推演观察信息完全可以借鉴POMDP进行可观察信息建模，但还需要设置各种更加符合真实装备的作战情况，需要在环境中提前设置有针对性的条件。</p>
+<h4 id="1-8-对手建模"><a href="#1-8-对手建模" class="headerlink" title="1.8 对手建模"></a>1.8 对手建模</h4><p>在博弈对抗过程中对手 AI 的建模也是至关重要的，不同水平的AI会导致博弈对抗的胜率不同，并且直接影响推演对抗的价值[<a href="javascript:;">39</a>,<a href="javascript:;">40</a>,<a href="javascript:;">41</a>,<a href="javascript:;">42</a>,<a href="javascript:;">43</a>,<a href="javascript:;">44</a>,<a href="javascript:;">45</a>]。如果对手 AI水平过低，就不能逼真地模拟假设对手，博弈过程和推演结果也价值不高。在 DeepMind 开发的AlphaGo和AlphaStar中，AI性能已经可以击败职业选手，通过训练后产生的决策方案已经可以给职业选手新的战术启发。国内《墨子•未来指挥官系统》也与国内高校合作，研发的基于深度强化学习的智能 AI 已经可以击败全国兵棋大赛十强选手。而在中国科学院自动化研究所开发的“庙算•智胜”上，积分排名前三名的均是AI选手，胜率均在80%以上[<a href="javascript:;">11</a>]。但是，现有对手建模主要还是聚焦在一对一的对手建模，很少学者研究<strong>多方博弈</strong>，而这在实际作战推演中更加需要。在实际作战对抗博弈过程中普遍会考虑多方博弈，如在《墨子•未来指挥官系统》的海峡大潮想定中，红方不仅面对蓝方，还有绿方，蓝方和绿方属于联盟关系。这就需要在对手建模中充分考虑这种复杂的博弈关系。</p>
+<h4 id="1-9-想定设计"><a href="#1-9-想定设计" class="headerlink" title="1.9 想定设计"></a>1.9 想定设计</h4><p>博弈对抗的环境因素也是影响智能决策的重要因素之一。在围棋、国际象棋这些棋类游戏中，想定是永久固定不变的，而且也完全没有环境的影响，因此AlphaGo这类智能AI完全没有考虑环境的因素。在《觉悟 AI》《Dota 2》这类游戏中就需要考虑不同“英雄”在同一个场景中会产生不同的影响。不同的“英雄”阵容搭配也会对推演结果产生不同的影响，《觉悟AI》尝试利用强化学习技术，结合历史数据解决这一问题。这对于作战推演的武器装备搭配也具有启发价值。但是在实时策略游戏中要考虑更加复杂的环境因素及其影响，不仅作战单元会产生变化，并且在不同的作战推演中，不同的环境之中也会有不同的地形、地貌，这些因素会对作战推演的过程产生非常重要的影响。《CMANO》《墨子·未来指挥官系统》《战争游戏：红龙》中都需要考虑地形因素。例如《CMANO》中登陆作战需要考虑水雷所在区域、登陆舰艇吃水深度，否则会产生搁浅，不能在理想区域登陆会对作战目标产生较大负面影响。因此，对于实际作战推演来说，最大的挑战是防止训练的深度强化学习AI 对某个想定产生过拟合。作战场景是千变万化的，传统的基于规则的AI就很难适应变化的想定，早期的《先知•兵圣》比赛中就比较突出地显示了这一问题。强化学习也容易训练出某个过拟合的模型，导致只在某个想定会有较好的AI智能性，假如更换作战想定就需要重新训练很长时间。为了解决这一问题，现有思路是利用<strong>迁移学习</strong>、<strong>先验知识</strong>和<strong>强化学习</strong>的思路来增强算法的适应性，并可以加速回报函数收敛，保证快速训练出高水平的AI模型。</p>
+<h3 id="2-作战推演的智能决策核心技术思路"><a href="#2-作战推演的智能决策核心技术思路" class="headerlink" title="2 作战推演的智能决策核心技术思路"></a>2 作战推演的智能决策核心技术思路</h3><h4 id="2-1-强化学习技术框架"><a href="#2-1-强化学习技术框架" class="headerlink" title="2.1 强化学习技术框架"></a>2.1 强化学习技术框架</h4><p>pass</p>
+<h4 id="2-2-强化学习主流算法"><a href="#2-2-强化学习主流算法" class="headerlink" title="2.2 强化学习主流算法"></a>2.2 强化学习主流算法</h4><p>pass</p>
+<h4 id="2-3-深度学习结合强化学习"><a href="#2-3-深度学习结合强化学习" class="headerlink" title="2.3 深度学习结合强化学习"></a>2.3 深度学习结合强化学习</h4><p>在现有策略对抗游戏中利用深度学习技术结合强化学习来实现游戏AI已成为主流研究方向[<a href="javascript:;">52</a>]。其主要思路为在游戏对抗过程中利用图像特征的卷积提取技术。如在《觉悟AI》中，图像特征的提取采取了分层的思想，在主视野和小地图中，对不同种类的要素进行提取并合并到一个层中，最终每层都提取到一类关键属性节点信息，形成“英雄”“野怪”“小兵”位置矩阵[<a href="javascript:;">6</a>]。最终将多尺度特征的信息融合形成全局态势特征信息，这一工作同样应用在AlphaStar中。对于作战推演来说，态势理解一直是研究的难点，那么考虑利用深度学习技术来实现态势图像特征的提取，进而最终输出态势图的关键信息将是解决方案之一。此外，笔者所在团队也尝试利用深度学习技术对态势信息进行卷积提取，然后将提取信息与语义模型结合，生成当前态势的直观文本语义。而在前端利用强化学习进行实体单元控制，这样就可以将强化学习、深度学习、自然语言处理融合，在推演过程中实时生成方便人类理解的智能决策文本语义信息，这一工作对于实现推演系统中的人机融合具有积极意义。</p>
+<h4 id="2-4-分层强化学习"><a href="#2-4-分层强化学习" class="headerlink" title="2.4 分层强化学习"></a>2.4 分层强化学习</h4><p>智能博弈对抗的建模过程面临两个难题，一个是动作空间庞大，另一个是奖励稀疏问题。面对这两个问题，有研究人员提出了分层强化学习的解决思路。该思路的核心是对动作进行分层，将低层级（low-level）动作组成高层级（high-level）动作，这样搜索空间就会被减小[<a href="javascript:;">52</a>]。同时基于分层的思想，在一个预训练的环境中学习有用的技能，这些技能是通用的，与要解决的对抗任务的关系不太紧密。学习一个高层的控制策略能够使 agent 根据状态调用技能，并且该方法能够很好地解决探索效率较低的问题，该方法已在一系列稀疏奖励的任务中表现出色[<a href="javascript:;">61</a>-<a href="javascript:;">62</a>]。《觉悟 AI》同样设计了分层强化学习的动作标签来控制“英雄”的微观操作。具体来说，每个标签由两个层级（或子标签）组成，它们表示一级和二级操作。第一个动作，即一级动作，表示要采取的动作，包括移动、普通攻击、一技能、二技能、三技能、回血、回城等。第二个是二级动作，它告诉玩家如何根据动作类型具体地执行动作。例如，如果第一个层级是移动动作，那么第二个层级就是选择一个二维坐标来选择移动的方向；当第一个层级为普通攻击时，第二个层级将成为选择攻击目标；如果第一个层级是一技能（或二技能、三技能），那么第二个层级将针对不同技能选择释放技能的类型、目标和区域。这对于作战推演中不同算子如何执行动作也具有参考价值，每一个类型的算子同样存在不同的动作，例如坦克可以选择直瞄射击、间瞄射击、移动方向等，实际作战推演不同装备同样具有众多复杂的动作，通过这样的特征和标签设计，可以将人工智能建模任务作为一个层次化的多类分类问题来完成。具体来说，一个深层次的神经网络模型被训练以预测在给定的情境下要采取的行动。作战推演也可以参考层次化的动作标签来不断细化动作执行过程，进而训练解决复杂的动作执行难题。在作战推演中完全可以借鉴这种思路设计适用于作战场景的分层强化学习框架。南京大学的研究人员利用分层强化学习建立宏观策略模型和微观策略模型，根据具体的态势评估宏观策略模型，然后利用宏函数批量绑定选择微观动作，这样可以在不同的局势下选择对应的一系列动作，进而实现了分层强化学习在《星际争霸》环境中的应用[<a href="javascript:;">63</a>]。分层强化学习比较通用的框架是两层，顶层策略被称为元控制器（meta-controller），负责生成总体宏观目标，底层策略被称为控制器（controller），负责完成给定的子目标，这种机制本质也对应作战推演中的战略、战役、战术3个层次，不同层次关注的作战目标各有不同，但又互相关联。其他相关改进是学者在奖赏函数设置、增加分层结构、保持分层同步、提高采样效率等方面改进分层强化学习[<a href="javascript:;">64</a>]。</p>
+<h4 id="2-5-多agent强化学习"><a href="#2-5-多agent强化学习" class="headerlink" title="2.5 多agent强化学习"></a>2.5 多agent强化学习</h4><p>在游戏博弈对抗过程中必然需要考虑多 agent建模，而在作战推演中利用多 agent 技术实现不同作战单元的协同合作也是博弈智能研究的重点之一。在这方面OpenAI和AlphaStar在多agent深度强化学习方面使用了不同的技术思路。OpenAI 使用的是分布异构的多agent建模思路，每一个agent都有一个相同的训练神经网络，但是没有全局控制网络[<a href="javascript:;">37</a>,<a href="javascript:;">47</a>]。AlphaStar则是使用了一个集中的控制网络对不同的单元进行控制。还有一种思路是对于每一个agent，都建立属于各自的神经网络进行训练。第三种思路是最理想的，但是训练过程复杂，也难以适用于大规模的推演过程[<a href="javascript:;">43</a>]。对于实际作战推演来说，除了要考虑多 agent 建模方法，还需要让每个 agent 具有柔性加入的能力，在对抗过程中可以按照需要随时加入所需要的作战单元，而不需要每次加入作战单元后，再重新训练一遍网络。基于此考虑，让每一个 agent 具有自己独立的神经网络将是更好的选择。</p>
+<h4 id="2-6-LSTM技术结合深度强化学习"><a href="#2-6-LSTM技术结合深度强化学习" class="headerlink" title="2.6 LSTM技术结合深度强化学习"></a>2.6 LSTM技术结合深度强化学习</h4><p>《觉悟 AI》在设计过程中利用深度学习不断提取游戏界面的态势信息。利用深度学习虽然可以把一个对抗界面的所有特征提取出来，但是提取的是静态的某一帧的界面信息，并没有把时间步之间的信息关联起来。时间步一般指一帧，也可以指多帧，其关键是将历史的帧信息和现在的信息关联起来。基于此，需要引入长短期记忆（long short-term memory，LSTM）网络。让 LSTM 一次接收多个时间步信息来学习这些时间步之间的关联信息，从而让 LSTM 帮助“英雄”学习技能组合，并选择“英雄”应该关注的主视野和小地图的具体方面，进而综合输出合理的动作，也通过 LSTM 关联历史数据来训练强化学习的神经网络模型[<a href="javascript:;">65</a>]。在实际作战推演过程中同样需要考虑这种情况，防止出现训练的AI为了某个战术目标而忽视了整体战略目标。</p>
+<h4 id="2-7-多属性决策结合强化学习"><a href="#2-7-多属性决策结合强化学习" class="headerlink" title="2.7 多属性决策结合强化学习"></a>2.7 多属性决策结合强化学习</h4><p>强化学习的回报值往往根据专家经验手工设置，但是这种手工设置的回报值的收敛性及智能性均难以保证，并且长时间训练才能评估设置的回报值的效果。因此可以考虑结合推演数据，结合多属性决策方法进行客观分析，总结提炼出合适的回报值。首先，从推演环境中获取各关键属性数据，如在陆战对抗环境提取作战单元位置、高程、类型、射程属性、打击属性、装甲属性等。以这些属性数据为基础，计算出对应的评估指标，如目标距离威胁、目标攻击威胁、目标速度威胁等，通过熵权法计算相应权重，并最终结合多属性方法对敌方威胁度进行排序，将其和强化学习的回报值函数进行关联，进而设置出更加客观合理的回报值函数，这样有利于提高强化学习训练的智能性，并有利于加快收敛。</p>
+<h3 id="3-其他可用智能决策技术"><a href="#3-其他可用智能决策技术" class="headerlink" title="3 其他可用智能决策技术"></a>3 其他可用智能决策技术</h3><p>在智能博弈领域，国际上的 Atari、AlphaGo、AlphaStar、OpenAI都取得了显著的成果，国内《觉悟AI》《墨子•未来指挥官系统》AI、《CASIA-先知1.0》也都取得了突破性的进展。这些工作主要以深度强化学习技术为主，但均搭配使用了其他相关的人工智能技术。总体来说，单纯地利用深度强化学习技术并不能很有效地实现智能AI，有必要在训练过程中结合其他技术提高 AI 性能。同时，如果想要实现特别突出的 AI 智能，那么将在训练的过程中花费大量的成本。AlphaStar的训练过程持续了10个月，使用了51 000个CPU。该工作同时有30个博士生参与，花费数百万美元的成本，才在游戏智能博弈领域实现了超过职业选手水平的AI智能[<a href="javascript:;">43</a>]。</p>
+<h4 id="3-1-进化算法"><a href="#3-1-进化算法" class="headerlink" title="3.1 进化算法"></a>3.1 进化算法</h4><p>借鉴生物进化论，遗传算法将要解决的问题模拟成一个生化进化的过程，通过复制、交叉、突变等操作产生下一代的解，并逐步淘汰适应度函数值低的解，增加适应度函数值高的解。这样进化N代后就有可能进化出适应度函数值很高的个体。</p>
+<p>在 1993 年就有人尝试用遗传算法训练神经网络，但是当时的计算机算力不足，导致这个方向并没有引起过多关注[<a href="javascript:;">66</a>,<a href="javascript:;">67</a>,<a href="javascript:;">68</a>]。随着深度强化学习技术的火热发展以及算力的显著提高，部分学者和机构又开始关注这一结合点。OpenAI在2017年尝试直接利用进化算法来代替强化学习技术，在 MuJoCo （multi-joint dynamics with contact）和Atari上取得了一定的效果。但是这一工作的前提是需要大量的CPU进行大规模训练，且实验环境比较简单[<a href="javascript:;">69</a>]。优步（Uber）AI在2017年尝试将基于种群的遗传算法和深度神经网络结合，利用进化策略而不是梯度策略来更新权重参数，取得的算法性能在一定程度上优于 A3C、DQN 算法[<a href="javascript:;">70</a>]。除了在优化网络参数方面进行结合，将进化策略和多 agent 强化学习结合也是一个有意义的方向。DeepMind就是在AlphaStar中利用了联盟赛制，在训练出的agent中不断优化筛选出更加优秀的 agent，从而不断演化，最终训练出超过职业选手水平的游戏AI[<a href="javascript:;">48</a>]。</p>
+<p>总体来说，相较于强化学习算法，单纯利用遗传算法有明显的缺陷，遗传算法采样效率过低，并且不可以按照梯度优化的方式进行参数调整。遗传算法在实际推演中可能需要每一局结束才可以更新一个策略或者优化一个动作，而不能像强化学习算法在推演中每一步都进行一定的更新。但是，遗传算法的优势是适合在大规模的空间中进行探索，寻找全局最优解。而强化学习算法随着梯度下降进行优化，很容易寻找到局部最优解，而不是全局最优解。因此，如果找到合适的结合角度，遗传算法和强化学习两者结合会有一定的实际价值。</p>
+<h4 id="3-2-决策树"><a href="#3-2-决策树" class="headerlink" title="3.2 决策树"></a>3.2 决策树</h4><p>决策树方法是在已知各种情况发生概率的基础上，通过构成决策树来求取净现值的期望值大于等于零的概率，并判断其可行性的决策分析方法，是直观运用概率分析的一种图解法[<a href="javascript:;">71</a>]。其本身是一种树形结构，其中每个内部节点表示一个行为判断，每个分支代表一个判断结果的输出，每个叶节点代表一种分类结果。</p>
+<p>在作战推演建模的早期研究中，决策树是一种非常重要且常用的建模方法[<a href="javascript:;">72</a>]，其易于构建作战实体的行为规则，有利于分析基于决策树的作战实体行为模型[<a href="javascript:;">73</a>]，这在作战推演的初期是一种快速建立对手模型的高效办法，并且基于决策树的作战AI 也具有一定的初步智能性。在现在的游戏智能博弈对抗过程中，虽然基于决策树的研究总体比较少，但是衍生出了一些重要的算法，如南京大学Zhou Z H 等人[<a href="javascript:;">74</a>]提出的深度森林算法就是在决策树的基础上拓展而来的。这些工作都为后面的智能博弈领域的研究提供了重要的理论基础。</p>
+<h4 id="3-3-基于规则"><a href="#3-3-基于规则" class="headerlink" title="3.3 基于规则"></a>3.3 基于规则</h4><p>基于规则的 AI（简称规则 AI）主要是结合博弈对抗环境的领域知识，构建基于专家经验知识的规则AI。这类规则AI主要以高水平玩家的经验知识为基础，对领域知识进行程序化，进而形成具有一定智能性的推演AI。近年，在国内的智能博弈比赛中，参赛团队还是普遍以规则 AI 为基础，对规则AI进行改良和设计进而参赛[<a href="javascript:;">3</a>]。在2020年的智能兵棋比赛中，大部分团队及基准 AI 还是以规则AI为主流。当然，单纯基于知识的规则也存在各种局限，如智能性普遍较低、通用性较差等。但是，规则 AI 的好处就是便于分析设计，可以快速构建具有一定智能性的博弈对抗AI环境。规则AI可以作为对手模型进行构建，让强化学习AI与规则AI进行对抗，初步验证强化学习的智能性。同时，通过规则驱动结合强化学习的智能 AI 构建，也是当前国内智能兵棋的研究热点，利用高水平玩家快速构建基于规则的AI，让agent快速学习有效动作并存入模型中，方便神经网络直接提取有效经验，进而实现强化学习的快速收敛，加快学习进程。国内也有研究尝试利用知识驱动结合数据驱动，通过知识牵引 AI的整体策略，以数据驱动AI的具体动作，设计出基于知识牵引与数据驱动的兵棋AI框架[<a href="javascript:;">18</a>]。</p>
+<h4 id="3-4-势能统计"><a href="#3-4-势能统计" class="headerlink" title="3.4 势能统计"></a>3.4 势能统计</h4><p>国内研究人员借鉴物理学中的势能理论与方法，对指挥决策人员与战场要素间作用关系及其发展趋势进行量化分析和形式化表达，引导智能决策实体进行行动策略选择。并且从势能角度分析了作战指挥决策机理，尝试利用基于变权的动态势能模型和基于统计分析的静态势能模型，构建了基于综合势能的作战行动序列生成方法。并尝试在智能兵棋领域进行实验，验证了该算法优于多数规则及知识AI[<a href="javascript:;">75</a>]。实际上，该方法是利用离线和在线统计数据综合分析出智能兵棋推演 AI 的。可以尝试将该方法与强化学习结合，弥补强化学习开始阶段训练收敛速度过慢的缺陷，并在强化学习算法执行过程中，结合综合势能进行动作校正，从而生成更加智能化的作战行动序列。</p>
+<h4 id="3-5-随机森林"><a href="#3-5-随机森林" class="headerlink" title="3.5 随机森林"></a>3.5 随机森林</h4><p>在机器学习中，随机森林是一个包含多个决策树的分类器，并且输出的类别是由个别树输出的类别的众数而定的。Breiman L[<a href="javascript:;">76</a>]推论出随机森林算法。随机森林的随机性主要体现在可以从原始数据中采取有放回的抽样构造子数据集，子数据集的数据量和原始数据集是相同的。随机森林可以随机选取待选特征，随机森林中的子树的每一个分裂过程并未用到所有的待选特征，而是从所有的待选特征中随机选取一定的特征，再在随机选取的特征中选取最优的特征。随机森林的优点是实现相对简单，训练速度较快，可以并行实现；相比单一的决策树，能学习到特征之间的相互影响，并且不容易过拟合；对于高维数据来说，不需要做特征选择，明显提高了训练效率。</p>
+<p>在智能博弈对抗领域，与随机森林相关的研究其实较少，但是其在一定程度上可以作为训练数据的有效手段，进而弥补一些强化学习算法训练效率较低的缺陷。已有学者在德州扑克的博弈对抗环境中将策略空间设计为一种快速且高效的决策树，进而有利于使用多种方法来学习这种启发式的方法[<a href="javascript:;">77</a>]。</p>
+<h4 id="3-6-人件技术"><a href="#3-6-人件技术" class="headerlink" title="3.6 人件技术"></a>3.6 人件技术</h4><p>真实、完整地刻画人的直接参与特点，并且对人的服务角色进行统一管理和调度是构建人机融合系统的重要前提，人件技术能够更好地把人真正融入人机交互系统中，使该系统真正体现以人为本、强调智能的新型交互系统特点[<a href="javascript:;">78</a>-<a href="javascript:;">79</a>]。在智能博弈对抗环境中，人件技术主要是在专家经验知识中进行考虑，主要利用高水平玩家的数据进行监督学习，方便快速高效地训练出高水平的深度强化学习AI。人件技术的核心是在训练过程中融入人的行为偏好，通过人类行为决策数据进行训练，训练出一个初步的模型。而强化学习算法可以直接从初步的模型中提取相关数据，进而能训练出更具有智能性的 AI。DeepMind 对 AlphaStar 做了一组关于专家经验的消融实验，该消融实验证明 AlphaStar在复杂环境中，单纯依靠强化学习进行训练很难获得效果。同时该实验证明在仅有监督学习技术的支持下，AlphaStar 可以达到较好的效果。在充分利用人类数据后，AlphaStar 的性能可以再次提高60%。</p>
+<h4 id="3-7-统计前向规划算法"><a href="#3-7-统计前向规划算法" class="headerlink" title="3.7 统计前向规划算法"></a>3.7 统计前向规划算法</h4><p>统计前向规划算法使用仿真模型（也称为前向模型）自适应地搜索有效的动作序列，此类算法提供了一种简单通用的方法，为各种游戏提供快速自适应的AI控制。常见的经典模型为MCTS算法， MCTS算法最重要的优点是不需要领域特定知识，可以在不了解游戏规则的情况下应用，这使得它很容易适用于任何可以使用树进行建模的领域。像Go[<a href="javascript:;">25</a>]这样的游戏，分支因子明显具有高数量级特征，而有用的启发式又很难形成，这类问题就需要使用MCTS算法解决[<a href="javascript:;">80</a>]。尽管 MCTS 算法在大范围的博弈中提供了更强的决策能力，但将其应用在作战推演领域仍存在很多挑战和瓶颈。在作战推演领域，当需要搜索的图的分支因子和深度被限定，作战推演非常耗费CPU、GPU资源时，MCTS算法是否仍然是指导作战推演的最佳方法是一个有待研究的问题。</p>
+<h4 id="3-8-小地图设置技术"><a href="#3-8-小地图设置技术" class="headerlink" title="3.8 小地图设置技术"></a>3.8 小地图设置技术</h4><p>在多个智能博弈对抗游戏中普遍存在一个小地图，用来辅助玩家快速了解整体态势。AlphaStar利用 ResNet 在小地图中进行特征提取，获得对抗博弈中的关键属性信息，最终形成一个离散的单元特征图。AlphaStar正是通过小地图+单位列表+标量信息（资源信息）汇总输出各种智能决策给出的执行方案。在实际作战推演中，也需要考虑针对某个战场的全局地图信息，指挥员可能关注某个局部作战场景，同时也应该考虑全局的作战信息的获取[<a href="javascript:;">27</a>]。因此，在作战推演中智能决策 AI 的训练也需要设计小地图机制，来辅助深度强化学习智能AI进行训练。</p>
+<h3 id="4-作战推演技术难点及技术解决方案"><a href="#4-作战推演技术难点及技术解决方案" class="headerlink" title="4 作战推演技术难点及技术解决方案"></a>4 作战推演技术难点及技术解决方案</h3><h4 id="4-1-冷启动问题"><a href="#4-1-冷启动问题" class="headerlink" title="4.1 冷启动问题"></a>4.1 冷启动问题</h4><p>在对强化学习的训练过程中，研究人员总是会遇到训练过程时间长、难以收敛的问题，这种情况通常被称为冷启动问题。针对这个问题，现有研究人员提出了多种解决方案，比较有效的解决方案是利用专家的领域知识预先设计固定的先验知识，利用先验知识进行智能博弈训练，进而在强化学习的经验存储中得到高水平的训练数据。在强化学习的后期训练中直接利用这些先验知识对抗出来的经验数据进行模型训练，从而可以有效缩小探索空间和动作空间，进而保证强化学习可以快速训练出高水平的AI，避免了前期盲目探索的情况。在实际作战推演过程中，也可以考虑使用高水平指挥员的先验知识，提前进行形式化存储，进而在强化学习训练过程中导入先验知识，加快训练结果的收敛，得到较高水平的智能AI。</p>
+<h4 id="4-2-过拟合问题"><a href="#4-2-过拟合问题" class="headerlink" title="4.2 过拟合问题"></a>4.2 过拟合问题</h4><p>在智能博弈对抗过程中经常会出现训练一定阶段后陷入局部最优结果的情况。表现为在智能兵棋比赛中，经过长时间训练后，强化学习训练出的结果是控制算子进行固定的线路和射击套路，这种情况可被称为过拟合现象。为了避免这种情况的出现，应该在算法设计中加入随机可能性，在一定比例的动作选择概率下随机探索，而不是完全按照强化学习算法给出的结果进行执行。其次，按照贝尔曼方程，应该在奖励函数设计过程中，考虑当前影响和未来影响的可变比重，即回报函数设计包括一定的可变性，而不是固定不变的。当然也可以利用强大的计算力，生成大量新的对手，从不同方面与需要训练的 agent 进行对抗，从而避免因为固定对手而导致的过拟合现象。</p>
+<h4 id="4-3-想定适应性问题"><a href="#4-3-想定适应性问题" class="headerlink" title="4.3 想定适应性问题"></a>4.3 想定适应性问题</h4><p>智能博弈的 AI 建模普遍存在适应性不高的问题，有部分研究人员开发的 AI 是针对某个固定想定开发的，导致更换博弈想定后AI性能大幅下降。考虑到大部分数据或任务是存在相关性的，通过迁移学习可以将已经学到的模型参数通过某种方式分享给新模型，从而加快优化模型效率。中国科学院自动化研究所的研究人员引入了课程迁移学习，将强化学习模型扩展到各种不同博弈场景，并且提升了采样效率[<a href="javascript:;">81</a>]。DeepMind 在 AlphaZero 中使用同样的算法设置、网络架构和超参数，得到了一种适用于围棋、国际象棋和将棋的通用算法，并战胜了基于其他技术的棋类游戏AI[<a href="javascript:;">82</a>]。《觉悟AI》引入了课程学习方法，将训练至符合要求的参数迁移至同一个神经网络再次训练、迭代、修正以提高效率，使《觉悟AI》模型能熟练掌握40多个“英雄”[<a href="javascript:;">6</a>,<a href="javascript:;">36</a>]。在作战推演中，更需要这种适用性强的通用 AI 算法，不需要在更换作战想定后重新训练模型，也只有这样才可以更加适应实时性要求极高的作战场景。</p>
+<h4 id="4-4-智能蓝方建模"><a href="#4-4-智能蓝方建模" class="headerlink" title="4.4 智能蓝方建模"></a>4.4 智能蓝方建模</h4><p>对手建模指在两个 agent 博弈的环境中，为了获得更高的收益，需要对对手的策略进行建模，利用模型（隐式）推断其所采取的策略来辅助决策。智能蓝方建模主要是在具有战争迷雾的情况下，对对手进行建模，并预测对手的未来动作。其前提通常是博弈环境存在战争迷雾，我方在无法获取准确的对手信息的情况下，针对对方进行预测评估。在对抗过程中，一种假设是对手是完全理性的，对对手（队友）进行建模是为了寻找博弈中的纳什均衡策略。为了解决这一难点问题，阿尔伯塔大学的研究人员提出了反事实遗憾最小化（counterfactual regret minimization，CFR）技术，该技术不再需要一次性推理一棵完整的博弈树，而是允许从博弈的当前状态使用启发式搜索。另外，对手建模可分为隐式建模和显式建模。通常隐式建模直接将对手信息作为自身博弈模型的一部分来处理对手信息缺失的问题，通过最大化agent期望回报的方式将对手的决策行为隐式引进自身模型，构成隐式建模方法。显式建模则直接根据观测到的对手历史行为数据进行推理优化，通过模型拟合对手行为策略，掌握对手意图，降低对手信息缺失带来的影响[<a href="javascript:;">83</a>]。总体来说，对手建模技术是智能博弈对抗是否有效的关键，只有建立一个可以高效预估对手行为的模型，才能保证智能博弈AI的有效性。</p>
+<h4 id="4-5-路径规划问题"><a href="#4-5-路径规划问题" class="headerlink" title="4.5 路径规划问题"></a>4.5 路径规划问题</h4><p>路径规划作为智能博弈中的重要组成部分，其主要任务是根据不同的想定，针对每个单元在起始点和终止点之间快速规划一条由多个路径点依次连接而成的最优路径[<a href="javascript:;">84</a>]。在智能博弈的背景下，最优路径的含义不仅仅是两点之间的距离最短，而是综合考虑博弈态势、资源情况和综合威胁后的最佳路径。但是，已有的路径规划算法主要以A-Star算法、Dijkstra算法、D<em>算法、LPA</em>算法、D* lite算法等为典型代表，在物流运输、无人驾驶、航空航天等领域都取得了显著成效。同时也有学者提出其他的路径规划算法，如基于神经网络和人工势场的协同博弈路径规划方法[<a href="javascript:;">85</a>]等，但是在智能博弈的环境下，需要考虑的问题更加复杂，需要进一步对这些算法进行改进优化。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i>深度强化学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/27/%E8%81%94%E7%9B%9F%E8%AE%AD%E7%BB%83%E5%9C%A8%E6%B8%B8%E6%88%8FAI%E5%A4%9A%E6%A0%B7%E5%8C%96%E7%9A%84%E6%8E%A2%E7%B4%A2/" rel="prev" title="联盟训练在游戏AI多样化的探索">
+      <i class="fa fa-chevron-left"></i> 联盟训练在游戏AI多样化的探索
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%99%BA%E8%83%BD%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E4%B8%BB%E8%A6%81%E5%B1%9E%E6%80%A7%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">1 智能作战推演主要属性需求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E7%8A%B6%E6%80%81%E7%A9%BA%E9%97%B4"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 状态空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E5%8A%A8%E4%BD%9C%E7%A9%BA%E9%97%B4%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 动作空间设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-%E5%86%B3%E7%AD%96%E7%A9%BA%E9%97%B4%E6%9E%84%E5%BB%BA"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 决策空间构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-%E8%83%9C%E5%88%A9%E6%9D%A1%E4%BB%B6%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 胜利条件设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-%E5%A5%96%E5%8A%B1%E5%80%BC%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 奖励值设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-%E6%88%98%E4%BA%89%E8%BF%B7%E9%9B%BE"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 战争迷雾</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-%E8%A7%82%E5%AF%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 观察信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-%E5%AF%B9%E6%89%8B%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.8.</span> <span class="nav-text">1.8 对手建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-9-%E6%83%B3%E5%AE%9A%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.9.</span> <span class="nav-text">1.9 想定设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E7%9A%84%E6%99%BA%E8%83%BD%E5%86%B3%E7%AD%96%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">2 作战推演的智能决策核心技术思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A1%86%E6%9E%B6"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 强化学习技术框架</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%BB%E6%B5%81%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 强化学习主流算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%BB%93%E5%90%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 深度学习结合强化学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%88%86%E5%B1%82%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 分层强化学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-%E5%A4%9Aagent%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 多agent强化学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-LSTM%E6%8A%80%E6%9C%AF%E7%BB%93%E5%90%88%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 LSTM技术结合深度强化学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-%E5%A4%9A%E5%B1%9E%E6%80%A7%E5%86%B3%E7%AD%96%E7%BB%93%E5%90%88%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 多属性决策结合强化学习</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%B6%E4%BB%96%E5%8F%AF%E7%94%A8%E6%99%BA%E8%83%BD%E5%86%B3%E7%AD%96%E6%8A%80%E6%9C%AF"><span class="nav-number">3.</span> <span class="nav-text">3 其他可用智能决策技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E8%BF%9B%E5%8C%96%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 进化算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 决策树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E5%9F%BA%E4%BA%8E%E8%A7%84%E5%88%99"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 基于规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-%E5%8A%BF%E8%83%BD%E7%BB%9F%E8%AE%A1"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 势能统计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-%E4%BA%BA%E4%BB%B6%E6%8A%80%E6%9C%AF"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 人件技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-%E7%BB%9F%E8%AE%A1%E5%89%8D%E5%90%91%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 统计前向规划算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-%E5%B0%8F%E5%9C%B0%E5%9B%BE%E8%AE%BE%E7%BD%AE%E6%8A%80%E6%9C%AF"><span class="nav-number">3.8.</span> <span class="nav-text">3.8 小地图设置技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E6%8A%80%E6%9C%AF%E9%9A%BE%E7%82%B9%E5%8F%8A%E6%8A%80%E6%9C%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">4 作战推演技术难点及技术解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%86%B7%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 冷启动问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E8%BF%87%E6%8B%9F%E5%90%88%E9%97%AE%E9%A2%98"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 过拟合问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E6%83%B3%E5%AE%9A%E9%80%82%E5%BA%94%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 想定适应性问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-%E6%99%BA%E8%83%BD%E8%93%9D%E6%96%B9%E5%BB%BA%E6%A8%A1"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 智能蓝方建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92%E9%97%AE%E9%A2%98"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 路径规划问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="P.M.Y"
+      src="/images/creator.jpg">
+  <p class="site-author-name" itemprop="name">P.M.Y</p>
+  <div class="site-description" itemprop="description">记录·分享·进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">P.M.Y</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
