@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_icon001.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_icon001.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="对VDN、QMIX、QTRAN深度强化学习算法进行简要介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MARL算法介绍">
+<meta property="og:url" content="http://example.com/2022/10/01/MARL%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="动态">
+<meta property="og:description" content="对VDN、QMIX、QTRAN深度强化学习算法进行简要介绍">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKkEmc.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKkJdq.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKktXT.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKkffq.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrCnb.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrG7o.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrXUv.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrT4m.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKr9hc.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrdWr.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrkav.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrVDY.png">
+<meta property="og:image" content="https://www.helloimg.com/images/2022/10/02/ZKrfG9.png">
+<meta property="article:published_time" content="2022-10-01T18:59:50.000Z">
+<meta property="article:modified_time" content="2022-10-02T13:30:20.340Z">
+<meta property="article:author" content="P.M.Y">
+<meta property="article:tag" content="深度强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.helloimg.com/images/2022/10/02/ZKkEmc.png">
+
+<link rel="canonical" href="http://example.com/2022/10/01/MARL%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MARL算法介绍 | 动态</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3be792f493e893537d1d13a6c8b3b054";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">动态</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/01/MARL%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/creator.jpg">
+      <meta itemprop="name" content="P.M.Y">
+      <meta itemprop="description" content="记录·分享·进步">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="动态">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MARL算法介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+
+	    
+
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-02 02:59:50 / 修改时间：21:30:20" itemprop="dateCreated datePublished" datetime="2022-10-02T02:59:50+08:00">2022-10-02</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对VDN、QMIX、QTRAN深度强化学习算法进行简要介绍</p>
+<span id="more"></span>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/wenzhang-liu/posts">Papers - 知乎 (zhihu.com)</a></p>
+<p>VDN论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.05296">[1706.05296] Value-Decomposition Networks For Cooperative Multi-Agent Learning (arxiv.org)</a></p>
+<p>QMIX论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1803.11485">[1803.11485] QMIX: Monotonic Value Function Factorisation for Deep Multi-Agent Reinforcement Learning (arxiv.org)</a></p>
+<p>QTRAN论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1905.05408">[1905.05408] QTRAN: Learning to Factorize with Transformation for Cooperative Multi-Agent Reinforcement Learning (arxiv.org)</a></p>
+<h3 id="VDN"><a href="#VDN" class="headerlink" title="VDN"></a>VDN</h3><h4 id="1-研究背景"><a href="#1-研究背景" class="headerlink" title="1 研究背景"></a>1 研究背景</h4><p>VDN（Value Decomposition Networks）是一种<strong>基于值函数</strong>的方法，研究<strong>协作任务</strong>的多智能体强化学习问题，所有的智能体共享同一个奖励值（或者叫团队奖励）。</p>
+<p>智能体<strong>共享团队奖励</strong>会带来“<strong>credit assignment (信用分配)</strong>” 问题，即利用该团队奖励拟合出的<strong>值函数不能评价每个智能体的策略对整体的贡献</strong>。</p>
+<p>这会导致两个问题：</p>
+<p><strong>虚假奖励（spurious reward signals）：</strong>由于每个智能体都是<strong>局部观测</strong>，那么对其中一个智能体来说，其获得的团队奖励很有可能是其队友的行为导致的。</p>
+<p><strong>惰性智能体（lazy agent）:</strong> 当团队中的<strong>部分智能体</strong>学习到了比较好的策略并且能够完成任务时，其它智能体不需要做什么也能获得不错的团队奖励。</p>
+<p>以上问题本质上就是<strong>信用分配</strong>问题，如果每个智能体都会<strong>根据自己对团队的贡献，优化各自的目标函数</strong>，就能够解决上述问题。基于这样的动机，作者提出了<strong>“值函数分解”</strong>的研究思路，将团队<strong>整体的值函数分解成N个子值函数</strong>，分别作为<strong>各智能体执行动作的依据</strong>。</p>
+<h4 id="2-算法设计"><a href="#2-算法设计" class="headerlink" title="2 算法设计"></a>2 算法设计</h4><h5 id="2-1-Q函数值分解"><a href="#2-1-Q函数值分解" class="headerlink" title="2.1 Q函数值分解"></a>2.1 Q函数值分解</h5><p>采用<strong>加和</strong>的方式分解得到每个智能体的值函数，公式如下所示：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKkEmc"><img src="https://www.helloimg.com/images/2022/10/02/ZKkEmc.png" alt="ZKkEmc.png"></a></p>
+<p>公式表明<strong>团队的Q函数</strong>可以通过<strong>求和</strong>的方式近似<strong>分解成d个子Q函数</strong>，分别对应d个智能体，且每个子Q函数的输入为该对应智能体的<strong>局部观测序列</strong>和<strong>动作</strong>，互相不受影响，结构图如下所示：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKkJdq"><img src="https://www.helloimg.com/images/2022/10/02/ZKkJdq.png" alt="ZKkJdq.png"></a></p>
+<p>因此每个智能体就有了自己的值函数，它们就可以根据自己的局部值函数来进行决策：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKktXT"><img src="https://www.helloimg.com/images/2022/10/02/ZKktXT.png" alt="ZKktXT.png"></a></p>
+<h5 id="2-2-参数共享"><a href="#2-2-参数共享" class="headerlink" title="2.2 参数共享"></a>2.2 参数共享</h5><p>为了减少训练参数，作者考虑了将智能体的参数进行共享。<strong>参数共享</strong>的一个好处就是能够<strong>避免惰性智能体</strong>的出现。为了说明共享参数的合理性，这里作者提出了<strong>“智能体不变性”</strong>。</p>
+<p><strong>智能体不变性：</strong>交换智能体的<strong>观测次序</strong>和交换智能体的<strong>策略次序</strong>是等价的，即各智能体地位平等，功能相似。如果智能体之间要共享网络参数，则每个智能体的动作输出将取决于该智能体的<strong>观测以及编号</strong>。</p>
+<h5 id="2-3-端到端训练"><a href="#2-3-端到端训练" class="headerlink" title="2.3 端到端训练"></a>2.3 端到端训练</h5><p>VDN在集中式训练的时候，只需要计算<strong>整体Q函数的TD-error</strong>，然后将<strong>误差反向传播给各个子Q函数</strong>，大大减少了计算量。</p>
+<h4 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h4><p>VDN算法<strong>结构简洁</strong>，通过它分解得到的<strong>子Q函数</strong>可以让智能体根据自己的<strong>局部观测</strong>选择<strong>贪婪动作</strong>，从而<strong>执行分布式策略</strong>。其<strong>集中式训练方式</strong>能够在一定程度上保证<strong>整体Q函数的最优性</strong>。此外，VDN的<strong>“端到端训练”</strong>和<strong>“参数共享”</strong>使得算法收敛速度很快。</p>
+<p>但是对于一些比较<strong>大规模的多智能体优化问题</strong>，它的学习能力将会大打折扣。其根本限制在于<strong>缺少值函数分解有效性的理论支持</strong>。VDN以简单的求和方式将整体Q函数完全分解开，使得<strong>多智能体Q网络的拟合能力很受限制</strong>。</p>
+<p>在QMIX算法中，这种<strong>端到端训练</strong>的思路被继续沿用。作者改善了值函数分解的网络结构，考虑了<strong>系统全局状态s</strong>以及分布式策略的<strong>单调性约束</strong>，有效地增强了网络对整体Q函数的拟合能力。</p>
+<h3 id="QMIX"><a href="#QMIX" class="headerlink" title="QMIX"></a>QMIX</h3><h4 id="1-研究背景-1"><a href="#1-研究背景-1" class="headerlink" title="1 研究背景"></a>1 研究背景</h4><p>多智能体在<strong>执行动作</strong>的时候只能<strong>观测</strong>到各自的<strong>局部状态信息</strong>，而在<strong>训练时</strong>可以获取<strong>所有智能体的观测、动作以及系统的全局状态</strong>。针对协作任务，<strong>CTDE</strong>下需要考虑的关键问题就是<strong>如何找到最好的分布式策略</strong>，使得<strong>团队的“状态-联合动作”值函数 Qtot最优</strong>。</p>
+<p>论文作者结合了<strong>单调性</strong>来保证<strong>分布式策略最优</strong>。</p>
+<p><strong>单调性：</strong>就是指通过<strong>分布式策略</strong>计算出来的<strong>动作</strong>，和通过<strong>整体Q函数</strong>计算出来的<strong>动</strong>作，在<strong>“性能最优”</strong>上需要<strong>保持一致</strong>，即</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKkffq"><img src="https://www.helloimg.com/images/2022/10/02/ZKkffq.png" alt="ZKkffq.png"></a></p>
+<p>如果 (1) 式不成立，则分布式策略就<strong>不能使 Qtot 最大化</strong>，自然不会是最优策略，这就是<strong>非单调性</strong>。</p>
+<p>VDN的分解方式就满足 (1) 式中的单调性，并且有：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrCnb"><img src="https://www.helloimg.com/images/2022/10/02/ZKrCnb.png" alt="ZKrCnb.png"></a></p>
+<p>但是，该式中的关系太强了。事实上，<strong>值函数分解的单调性</strong>只需要满足如下条件即可:</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrG7o"><img src="https://www.helloimg.com/images/2022/10/02/ZKrG7o.png" alt="ZKrG7o.png"></a></p>
+<p>因此，本文的研究目标就是<strong>设计一个神经网络</strong>，<strong>输入</strong>为多个智能体对应的<strong>Qi</strong>，<strong>输出 Qtot</strong> ，强制其满足(3)式中的<strong>单调性约束</strong>。只要在满足该约束的前提下进行探索，就可以既<strong>保证 (1) 式成立</strong>，又能够<strong>增强网络的函数拟合能力</strong>，从而<strong>弥补VDN算法的不足</strong>。</p>
+<h4 id="2-算法设计-1"><a href="#2-算法设计-1" class="headerlink" title="2 算法设计"></a>2 算法设计</h4><h5 id="2-1-算法框架"><a href="#2-1-算法框架" class="headerlink" title="2.1 算法框架"></a>2.1 算法框架</h5><p>在QMIX算法中， Qtot 由 n 个智能体网络 (<strong>Agent networks</strong>)，一个混合网络 <strong>(Mixing network)</strong> 和一组超网络 (<strong>Hypernetworks</strong>)来表达。</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrXUv"><img src="https://www.helloimg.com/images/2022/10/02/ZKrXUv.png" alt="ZKrXUv.png"></a></p>
+<p><strong>智能体网络</strong>由MLP+GRU+MLP构成，网络<strong>输入为该智能体的历史动作-观测序列信息</strong>，<strong>输出该智能体分解之后的Q值函数</strong>。该智能体会根据此Q值得到贪婪动作。</p>
+<p><strong>混合网络</strong>的输入包括<strong>各智能体网络的输出Qi</strong>以及系统的<strong>全局状态 s</strong> ，<strong>输出 Qtot(τ,u)</strong> 。需要特别指出的是，QMIX需要使用<strong>全局状态s</strong>作为<strong>超网络的输入</strong>，并<strong>产生混合网络的参数</strong>。这一点，和VDN是不一样的，因为<strong>VDN并没有使用全局状态 s</strong> 。</p>
+<p>图1的重点部分应该是左边的混合网络内部结构。混合网络包含输入层、隐含层、输出层，和普通的单隐层MLP网络不同的是，<strong>其隐藏层的权重和偏置均由另外一组网络 (超网络) 计算得出</strong>。混合网络隐层的激活函数为 <strong>ELU</strong> (Exponential Linear Unit)，输出层线性激活 (没有激活函数)。从图中红色部分框图可以看出， <strong>W1</strong> 和 <strong>W2</strong> 由两个单层线性网络经过绝对值函数激活之后得出； W1 对应的偏置项直接由单层线性网络计算得出（不需要激活），而 W2 对应的偏置项则由双层线性网络计算得出，其中第一层由RELU函数激活。这些超网络输出的是一串向量，再经过reshape变成混合网络的参数。</p>
+<p>这样做就是为了使<strong>混合网络</strong>的<strong>权重参数</strong>都是<strong>非负的</strong>，从而保证混合网络能够以任意的精度<strong>拟合出任意单调函数</strong>（即满足(3)式）</p>
+<h5 id="2-2-函数表征复杂度"><a href="#2-2-函数表征复杂度" class="headerlink" title="2.2 函数表征复杂度"></a>2.2 函数表征复杂度</h5><p>虽然QMIX的函数拟合能力比VDN更强，但是作者也同样指出，(3) 式中的<strong>单调性约束</strong>毕竟还是<strong>限制了其对值函数的拟合范围</strong>。因为有的值函数分解可能不是以满足该单调性约束为依据的，(3) 式是 (1) 式的<strong>充分不必要条件</strong>。</p>
+<p>对于一些分布式策略，其单个智能体的<strong>最优动作依赖于同一时刻其它智能体的动作</strong>时，QMIX算法的<strong>函数表征能力</strong>也会<strong>受到一定程度的限制</strong>。</p>
+<h4 id="3-总结-1"><a href="#3-总结-1" class="headerlink" title="3 总结"></a>3 总结</h4><p>QMIX算法的设计在理论上和实验验证上，都比VDN有更多的优势。</p>
+<p>但是正如作者指出的那样，<strong>QMIX在执行策略的时候并不考虑其它智能体的动作</strong>。在实际场景中，这是<strong>不太合理</strong>的。针对合作任务的多智能体场景，只有充分考虑其它智能体可能对自己决策产生的影响，才能更好地进行合作。因此，<strong>考虑智能体之间更复杂的关系，例如任务/角色分配、智能体通信等，也是QMIX算法扩展的重要方向。</strong></p>
+<p>此外，(3) 式是 (1) 式的充分不必要条件，这将在<strong>一定程度上限制了QMIX网络的函数逼近能力</strong>，使得在某些场景下，其拟合出来的 <strong>Qtot 和真实值 Qtot∗ 存在一定的差距</strong>。</p>
+<h3 id="QTRAN"><a href="#QTRAN" class="headerlink" title="QTRAN"></a>QTRAN</h3><h4 id="1-研究背景-2"><a href="#1-研究背景-2" class="headerlink" title="1 研究背景"></a>1 研究背景</h4><p>针对一些具有<strong>非单调</strong>收益的合作问题，VDN和QMIX的函数拟合能力就会受到限制。因此研究人员提出了QTRAN算法，声称该算法能够克服以上两种算法的限制，<strong>分解任何可以分解的任务</strong>。</p>
+<h4 id="2-算法思路"><a href="#2-算法思路" class="headerlink" title="2 算法思路"></a>2 算法思路</h4><p>作者的关键思路，是<strong>将原始的整体值函数 Qjt(τ,u) 映射至一个新的值函数 Qjt′(τ,u) ，使得这两个函数的最优联合动作是等价的</strong>。这样，我们就可以通过分解 Qjt′ 来得到 [Qi] ，同时还要找到 Qjt′ 和 Qjt 之间的关系，保证全局最优性。</p>
+<p>显然，这种映射不能是随意的。为了保证全局最优性，作者首先提出了值函数分解需要满足的条件。</p>
+<h5 id="2-1-分解值函数的条件"><a href="#2-1-分解值函数的条件" class="headerlink" title="2.1 分解值函数的条件"></a>2.1 分解值函数的条件</h5><p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrT4m"><img src="https://www.helloimg.com/images/2022/10/02/ZKrT4m.png" alt="ZKrT4m.png"></a></p>
+<h5 id="2-2-如何映射"><a href="#2-2-如何映射" class="headerlink" title="2.2 如何映射"></a>2.2 如何映射</h5><p>对于新的值函数 Qjt′ ，作者直接将其定义为：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKr9hc"><img src="https://www.helloimg.com/images/2022/10/02/ZKr9hc.png" alt="ZKr9hc.png"></a></p>
+<p>与VDN的区别：</p>
+<p>由于VDN的<strong>分解方式过于充分</strong>，因此<strong>和真实的 Qjt 之间存在差距</strong>。所以根据定理1 中 Vjt(τ) 的定义，作者提出<strong>用 Vjt(τ) 来修正 Qjt′ 和 Qjt 之间的误差</strong>。于是，就有：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrdWr"><img src="https://www.helloimg.com/images/2022/10/02/ZKrdWr.png" alt="ZKrdWr.png"></a></p>
+<p>这样，我们就找到了 Qjt′ 和 Qjt 的关系。你会发现， [Qi] 既是 Qjt′ 的分解，也是 Qjt 的分解，因此，<strong>利用它们选出的最优动作就是等价的</strong>。</p>
+<p>如果直接将 Qjt′ 当做值函数来拟合，就和 VDN 算法一样了，区别就是上面 (6) 式描述的关系。因此， Vjt 的学习就显得非常关键。</p>
+<h5 id="2-3-结构框图"><a href="#2-3-结构框图" class="headerlink" title="2.3 结构框图"></a>2.3 结构框图</h5><p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrkav"><img src="https://www.helloimg.com/images/2022/10/02/ZKrkav.png" alt="ZKrkav.png"></a></p>
+<h5 id="2-4-QTRAN的变化形式：QTRAN-alt"><a href="#2-4-QTRAN的变化形式：QTRAN-alt" class="headerlink" title="2.4 QTRAN的变化形式：QTRAN-alt"></a>2.4 QTRAN的变化形式：QTRAN-alt</h5><p><strong>关键思想：</strong>强制 Qjt′ 跟踪 Qjt 的更新，公式如下：</p>
+<p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrVDY"><img src="https://www.helloimg.com/images/2022/10/02/ZKrVDY.png" alt="ZKrVDY.png"></a></p>
+<h5 id="2-5-伪代码"><a href="#2-5-伪代码" class="headerlink" title="2.5 伪代码"></a>2.5 伪代码</h5><p><a target="_blank" rel="noopener" href="https://www.helloimg.com/image/ZKrfG9"><img src="https://www.helloimg.com/images/2022/10/02/ZKrfG9.png" alt="ZKrfG9.png"></a></p>
+<h4 id="3-总结-2"><a href="#3-总结-2" class="headerlink" title="3 总结"></a>3 总结</h4><p>QTRAN算法其实和VDN更加相似一些，因为它<strong>学习 Qjt′ 的过程和VDN没有什么区别</strong>。但是，<strong>QTRAN比VDN多出一个 Vjt 函数</strong>，它<strong>可以帮助算法找到合适的 Qjt′ 使其和 Qjt 在最优动作的选择上是等价的。</strong>这是QTRAN算法的<strong>基本思路</strong>。</p>
+<p><strong>但是在实际操作过程中， Vjt 并不是那么好学的。为了使 Qjt′ 能够随着 Qjt 的更新而同步更新，作者在原始版本QTRAN-base的基础上提出了QTRAN-alt。</strong></p>
+<p>QTRAN作为VDN和QMIX的改进算法，被大量的MARL相关论文引用并作为baseline。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i>深度强化学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/27/%E6%99%BA%E8%83%BD%E5%8D%9A%E5%BC%88%E7%BB%BC%E8%BF%B0%EF%BC%9A%E6%B8%B8%E6%88%8FAI%E5%AF%B9%E4%BD%9C%E6%88%98%E6%8E%A8%E6%BC%94%E7%9A%84%E5%90%AF%E7%A4%BA/" rel="prev" title="智能博弈综述：游戏AI对作战推演的启示">
+      <i class="fa fa-chevron-left"></i> 智能博弈综述：游戏AI对作战推演的启示
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VDN"><span class="nav-number">1.</span> <span class="nav-text">VDN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">1 研究背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.</span> <span class="nav-text">2 算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-Q%E5%87%BD%E6%95%B0%E5%80%BC%E5%88%86%E8%A7%A3"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 Q函数值分解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-%E5%8F%82%E6%95%B0%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 参数共享</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 端到端训练</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">3 总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QMIX"><span class="nav-number">2.</span> <span class="nav-text">QMIX</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">1 研究背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1-1"><span class="nav-number">2.2.</span> <span class="nav-text">2 算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 算法框架</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-%E5%87%BD%E6%95%B0%E8%A1%A8%E5%BE%81%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 函数表征复杂度</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%80%BB%E7%BB%93-1"><span class="nav-number">2.3.</span> <span class="nav-text">3 总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QTRAN"><span class="nav-number">3.</span> <span class="nav-text">QTRAN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">1 研究背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="nav-number">3.2.</span> <span class="nav-text">2 算法思路</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-%E5%88%86%E8%A7%A3%E5%80%BC%E5%87%BD%E6%95%B0%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.1 分解值函数的条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-%E5%A6%82%E4%BD%95%E6%98%A0%E5%B0%84"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2 如何映射</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="nav-number">3.2.3.</span> <span class="nav-text">2.3 结构框图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-QTRAN%E7%9A%84%E5%8F%98%E5%8C%96%E5%BD%A2%E5%BC%8F%EF%BC%9AQTRAN-alt"><span class="nav-number">3.2.4.</span> <span class="nav-text">2.4 QTRAN的变化形式：QTRAN-alt</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.5.</span> <span class="nav-text">2.5 伪代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%80%BB%E7%BB%93-2"><span class="nav-number">3.3.</span> <span class="nav-text">3 总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="P.M.Y"
+      src="/images/creator.jpg">
+  <p class="site-author-name" itemprop="name">P.M.Y</p>
+  <div class="site-description" itemprop="description">记录·分享·进步</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">P.M.Y</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
